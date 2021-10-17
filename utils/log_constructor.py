@@ -1,0 +1,41 @@
+class LogEvent:
+    """
+    Definition of Log Event
+    """
+    MARKET_MAKER_EVENT = "MARKET_MAKER"
+    MARKET_MAKER_SCRIPT_EVENT = "SCRIPT_MARKET_MAKER"
+    MARKET_MAKER_TASK_EVENT = "TASK_MARKET_MAKER"
+
+    ORDER_EVENT = "ORDER"
+    USER_CREATE_LIMIT_ORDER = "USER_CREATE_LIMIT_ORDER"
+    USER_CREATE_STOP_LIMIT_ORDER = "USER_CREATE_STOP_LIMIT_ORDER"
+    USER_CREATE_MARKET_ORDER = "USER_CREATE_MARKET_ORDER"
+    USER_CANCEL_ORDER = "USER_CANCEL_ORDER"
+    USER_MATCH_WITH_BOT = "USER_MATCH_WITH_BOT"
+    USER_MATCH_WITH_USER = "USER_MATCH_WITH_USER"
+    BOT_MATCH_WITH_USER = "BOT_MATCH_WITH_USER"
+
+    USER_EVENT = "USER"
+    NEW_USER_REGISTERED = "NEW_USER_REGISTERED"
+
+    CRONJOB_EVENT = "CRONJOB"
+    CRONJOB_START = "CRONJOB_START"
+    CRONJOB_DONE = "CRONJOB_DONE"
+    CRONJOB_FAILED = "CRONJOB_FAILED"
+
+    RIPPLE_ADAPTER = 'RIPPLE_ADAPTER'
+    RIPPLE_RPC_CALL = 'RIPPLE_RPC_CALL'
+
+    DEPOSIT_EVENT = 'DEPOSIT_EVENT'
+    WITHDRAW_EVENT = 'WITHDRAW_EVENT'
+
+
+class LogConstructor(object):
+
+    @classmethod
+    def generate_log_data(cls, event, sub_event, data):
+        return {
+            "action_event": event,
+            "sub_event": sub_event,
+            "data": data
+        }

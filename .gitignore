@@ -1,0 +1,14 @@
+/environments.env
+/.venv/
+/venv/
+/static/
+/main_debug.log
+/dump.rdb
+__pycache__/
+/__pycache__/
+*.py[cod]
+*$py.class
+.idea/
+ **/migrations/**
+ !**/migrations
+ !**/migrations/__init__.py
