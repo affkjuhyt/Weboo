@@ -1,0 +1,53 @@
+import logging
+
+from rest_framework import serializers
+
+from books.models import Comment, Reply
+from userprofile.serializers import UserProfileSerializer
+from userprofile.models import UserProfile
+
+from django.utils import timezone
+
+logger = logging.getLogger(__name__)
+
+
+class ReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reply
+        fields = ['id', 'comment', 'user', 'reply', 'like_count', 'date_modified', 'date_added', 'is_deleted']
+        read_only_fields = ['id']
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        reply = Reply.objects.filter(id=instance.id).first()
+        response['user'] = reply.user.full_name
+
+        return response
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    # reply = ReplySerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'book', 'chapter', 'user', 'content', 'date_modified', 'date_added', 'like_count', 'is_deleted']
+        read_only_fields = ['id']
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        replys = Reply.objects.filter(comment=instance)
+        if replys.exists():
+            response['user'] = replys.first().user.full_name
+            response['time'] = timezone.now() - replys.first().date_added
+            response['count_reply'] = replys.count()
+            response['reply'] = ReplySerializer(replys, many=True).data
+        else:
+            response['user'] = ""
+            response['time'] = ""
+            response['count_reply'] = 0
+            response['reply'] = ""
+
+        return response
+
+
+

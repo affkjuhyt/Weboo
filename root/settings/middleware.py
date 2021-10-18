@@ -50,5 +50,4 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'defender.middleware.FailedLoginMiddleware',
     'root.settings.middleware.GetUserAgentMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
