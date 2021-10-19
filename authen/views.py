@@ -117,3 +117,47 @@ class AppleView(APIView):
         response["user_id"] = user.id
         response["access_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
+
+
+class LoginAPI(APIView):
+    def post(self, request):
+        if not request.data:
+            return Response({'Error': "Please provide username/password"}, status=status.HTTP_400_BAD_REQUEST)
+
+        username = request.data['username']
+        password = request.data['password']
+        response = {}
+        if validate_email(username):
+            email = request.data['username']
+            try:
+                user_profile = UserProfile.objects.filter(email=email).first()
+                user = User.objects.filter(Q(id=user_profile.user.id) | Q(password=password)).first()
+            except:
+                return Response({'Error': "Invalid username/password"}, status=status.HTTP_400_BAD_REQUEST)
+
+            if user:
+                payload = jwt_payload_handler(user)
+                jwt_token = jwt_encode_handler(payload)
+
+                response["email"] = user.email
+                response["access_token"] = jwt_token
+
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            phone_number = request.data['username']
+
+            try:
+                user_profile = UserProfile.objects.filter(phone_number=phone_number).first()
+                user = User.objects.filter(Q(id=user_profile.user.id) | Q(password=password)).first()
+            except:
+                return Response({'Error': "Invalid username/password"}, status=status.HTTP_400_BAD_REQUEST)
+
+            if user:
+                payload = jwt_payload_handler(user)
+                jwt_token = jwt_encode_handler(payload)
+
+                response["email"] = user.email
+                response["access_token"] = jwt_token
+
+            return Response(response, status=status.HTTP_200_OK)
+

@@ -45,3 +45,14 @@ class BookView(ReadOnlyModelViewSet):
         serializer = CommentSerializer(comment, many=True)
 
         return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], url_path='suggest_book')
+    def get_suggest_book(self, request, *args, **kwargs):
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+
+        book = Book.objects.filter().order_by('-star')
+        result_page = paginator.paginate_queryset(book, request)
+        list_suggest_books = BookSerializer(result_page, context={"request": request}, many=True)
+
+        return paginator.get_paginated_response(list_suggest_books.data)

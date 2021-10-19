@@ -29,4 +29,5 @@ urlpatterns = [
     path('signingg', views.GoogleView.as_view(), name='sigin-gg'),
     path('signinfb', views.FacebookView.as_view(), name='sigin-fb'),
     path('signinapple', views.AppleView.as_view(), name='sigin-apple'),
+    path('login', views.LoginAPI.as_view(), name='login'),
 ]

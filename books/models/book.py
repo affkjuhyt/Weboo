@@ -44,7 +44,7 @@ class Book(BaseTimeStampModel):
     status = models.CharField(max_length=20, choices=BOOK_STATUS, default=NEW)
     type = models.CharField(max_length=20, choices=BOOK_TYPES, default=COMIC)
     like_count = models.IntegerField(default=0)
-    star = models.IntegerField(null=True, blank=True)
+    star = models.IntegerField(default=0)
     is_enable = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
 

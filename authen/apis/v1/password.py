@@ -42,10 +42,6 @@ class PasswordViewSet(viewsets.GenericViewSet):
 
     @action(detail=False, methods=['post'], url_path='forgot', serializer_class=DefaultSendResetPasswordLinkSerializer)
     def forgot(self, request):
-        if settings.ENABLE_CAPTCHA:
-            captcha_token = request.data.get('captcha_token')
-            if not verify_recaptcha(captcha_token=captcha_token):
-                raise BadRequest('Bad request.')
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         login = serializer.validated_data['login']
