@@ -10,6 +10,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'django_neomodel',
     'drf_yasg',
     'defender',
     'corsheaders',
@@ -20,4 +21,5 @@ INSTALLED_APPS = [
     'books',
     'userprofile',
     'authen',
+    'recommend',
 ]

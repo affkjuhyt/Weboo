@@ -1,5 +1,13 @@
 import os
 # Database
+from neomodel import config
+
+config.DATABASE_URL = os.environ.get("DATABASE_URL")
+config.ENCRYPTED_CONNECTION = True
+
+# cypher.default_language_version=3.5
+
+# NEOMODEL_NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL', 'bolt://neo4j:123456a@@localhost:7687')
 
 DATABASES = {
     'default': {
