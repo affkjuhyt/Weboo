@@ -10,6 +10,6 @@ logger = logging.getLogger(__name__)
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
-        fields = ['id', 'book', 'title', 'thumbnail', 'date_modified',
+        fields = ['id', 'book', 'number', 'title', 'thumbnail', 'date_modified',
                   'date_added', 'like_count', 'is_deleted']
         read_only_fields = ['id']

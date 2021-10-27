@@ -21,5 +21,5 @@ INSTALLED_APPS = [
     'books',
     'userprofile',
     'authen',
-    'recommend',
+    'bookcase',
 ]

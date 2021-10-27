@@ -11,7 +11,7 @@ class BooksAdmin(admin.ModelAdmin):
 
 
 class ChaptersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'book', 'title', 'like_count')
+    list_display = ('id', 'book', 'number', 'title', 'like_count')
     search_fields = ['title']
     list_filter = ['book']
 

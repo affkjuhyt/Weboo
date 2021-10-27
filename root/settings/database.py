@@ -1,9 +1,5 @@
 import os
 # Database
-from neomodel import config
-
-config.DATABASE_URL = os.environ.get("DATABASE_URL")
-config.ENCRYPTED_CONNECTION = True
 
 # cypher.default_language_version=3.5
 

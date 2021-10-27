@@ -1,5 +1,6 @@
 import logging
 
+from rest_framework import generics
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
@@ -8,8 +9,10 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
 from rest_framework.filters import SearchFilter
 
-from books.models import Book, Comment
+from bookcase.models import History
+from books.models import Book, Comment, TagBook, Tag
 from books.serializers import BookSerializer, CommentSerializer
+from root.authentications import BaseUserJWTAuthentication
 
 logger = logging.getLogger(__name__.split('.')[0])
 
@@ -56,3 +59,36 @@ class BookView(ReadOnlyModelViewSet):
         list_suggest_books = BookSerializer(result_page, context={"request": request}, many=True)
 
         return paginator.get_paginated_response(list_suggest_books.data)
+
+
+class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
+    serializer_class = BookSerializer
+    authentication_classes = [BaseUserJWTAuthentication]
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Book.objects.filter()
+
+    @action(detail=False, methods=['get'], url_path='relate_to', serializer_class=BookSerializer)
+    def get_relate_to(self, request, *args, **kwargs):
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        user = self.request.user
+        list_history = History.objects.filter(user=user)
+        tag = []
+        for history in list_history:
+            book = Book.objects.filter(id=history.book.id)
+            tag_book = TagBook.objects.filter(book_id=book.id)
+            tag = Tag.objects.filter(tagbook=tag_book)
+            tag_book_list = TagBook.objects.filter(tag=tag)
+            breakpoint()
+            for tag_book in tag_book_list:
+                books = Book.objects.filter(id=tag_book.book.id)
+
+                result_page = paginator.paginate_queryset(books, request)
+                serializer = BookSerializer(result_page, context={"request": request}, many=True)
+                return paginator.get_paginated_response(serializer.data)
+            # tag_book =
+
+        breakpoint()
+        return Response("Get book relate to success")
