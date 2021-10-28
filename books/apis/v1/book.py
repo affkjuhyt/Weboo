@@ -1,6 +1,6 @@
 import logging
 
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
@@ -12,6 +12,7 @@ from rest_framework.filters import SearchFilter
 from bookcase.models import History
 from books.models import Book, Comment, TagBook, Tag
 from books.serializers import BookSerializer, CommentSerializer
+from userprofile.models import FollowBook
 from root.authentications import BaseUserJWTAuthentication
 
 logger = logging.getLogger(__name__.split('.')[0])
@@ -75,20 +76,33 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
         paginator.page_size = 10
         user = self.request.user
         list_history = History.objects.filter(user=user)
-        tag = []
-        for history in list_history:
-            book = Book.objects.filter(id=history.book.id)
-            tag_book = TagBook.objects.filter(book_id=book.id)
-            tag = Tag.objects.filter(tagbook=tag_book)
-            tag_book_list = TagBook.objects.filter(tag=tag)
-            breakpoint()
-            for tag_book in tag_book_list:
-                books = Book.objects.filter(id=tag_book.book.id)
-
+        if len(list_history) > 0:
+            for history in list_history:
+                book = Book.objects.filter(id=history.book.id).first()
+                tag_book_ids = TagBook.objects.filter(book_id=book.id).values_list('id', flat=True)
+                tag_ids = Tag.objects.filter(tagbook__in=tag_book_ids).values_list('id', flat=True)
+                tag_book_list = TagBook.objects.filter(tag__in=tag_ids).values_list('book_id', flat=True)
+                books = Book.objects.filter(pk__in=tag_book_list)
                 result_page = paginator.paginate_queryset(books, request)
                 serializer = BookSerializer(result_page, context={"request": request}, many=True)
                 return paginator.get_paginated_response(serializer.data)
-            # tag_book =
+        else:
+            return Response("Khong co truyen lien quan")
 
-        breakpoint()
-        return Response("Get book relate to success")
+    @action(detail=True, methods=['post'], url_path='follow_book')
+    def post_follow_book(self, request, *args, **kwargs):
+        try:
+            book = self.get_object()
+            user = self.request.user
+            follow = FollowBook.objects.filter(user=user, book=book).first()
+            if follow.DoesNotExist:
+                if follow.status:
+                    follow.status = False
+                else:
+                    follow.status = True
+                follow.save()
+            else:
+                FollowBook.objects.create(book=book, user=user)
+            return Response("Create follow success", status=status.HTTP_200_OK)
+        except:
+            return Response("Error", status=status.HTTP_404_NOT_FOUND)

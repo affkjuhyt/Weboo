@@ -33,9 +33,9 @@ books_public_urlpatterns = public_router.urls
 admin_router = ExtendedSimpleRouter()
 
 admin_router.register(
-    r'history',
+    r'book',
     BookAdminView,
-    basename='v1-history'
+    basename='v1-book'
 )
 
 books_urlpatterns = admin_router.urls

@@ -1,6 +1,6 @@
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 
-from userprofile.apis.v1 import UserPublicView, UpdateInfo
+from userprofile.apis.v1 import UserPublicView, UpdateInfo, FollowBookAdminView
 
 public_router = ExtendedSimpleRouter()
 
@@ -17,3 +17,14 @@ public_router.register(
 )
 
 userprofile_urlpatterns = public_router.urls
+
+
+private_router = ExtendedSimpleRouter()
+
+private_router.register(
+    r'follow',
+    FollowBookAdminView,
+    basename='v1-follow'
+)
+
+follow_urlpatterns = private_router.urls
