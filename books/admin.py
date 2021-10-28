@@ -4,7 +4,7 @@ from books.models import Book, Image, Comment, Reply, Chapter, Tag, TagBook
 
 
 class BooksAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'type', 'description', 'author', 'status', 'is_vip')
+    list_display = ('id', 'title', 'type', 'description', 'author', 'status', 'is_vip', 'thumbnail')
     search_fields = ['title', 'author']
     raw_id_fields = []
     list_filter = ['is_vip', 'status', 'is_enable']

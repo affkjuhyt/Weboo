@@ -10,9 +10,9 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
 from rest_framework.filters import SearchFilter
 
 from bookcase.models import History
-from books.models import Book, Comment, TagBook, Tag
-from books.serializers import BookSerializer, CommentSerializer
-from userprofile.models import FollowBook
+from books.models import Book, Comment, TagBook, Tag, Chapter
+from books.serializers import BookSerializer, CommentSerializer, ChapterSerializer
+from userprofile.models import FollowBook, DownLoadBook
 from root.authentications import BaseUserJWTAuthentication
 
 logger = logging.getLogger(__name__.split('.')[0])
@@ -106,3 +106,27 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
             return Response("Create follow success", status=status.HTTP_200_OK)
         except:
             return Response("Error", status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['post'], url_path='delete_download')
+    def post(self, request, *args, **kwargs):
+        try:
+            book = self.get_object()
+            user = self.request.user
+            chapter_ids = Chapter.objects.filter(book=book).values_list('id', flat=True)
+            DownLoadBook.objects.filter(chapter__in=chapter_ids).filter(user=user).update(status=DownLoadBook.NOT_DOWNLOAD)
+
+            return Response("Delete download successfully", status=status.HTTP_200_OK)
+        except:
+            return Response("Error", status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['get'], url_path='list_chapter_download')
+    def get_list_chapter_download(self, request, *args, **kwargs):
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        user = self.request.user
+        book = self.get_object()
+        chapters = Chapter.objects.filter(book=book)
+
+        result_page = paginator.paginate_queryset(chapters, request)
+        serializer = ChapterSerializer(result_page, context={"request": request}, many=True)
+        return paginator.get_paginated_response(serializer.data)

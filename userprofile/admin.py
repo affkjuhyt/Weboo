@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from userprofile.models import UserProfile, FollowBook
+from userprofile.models import UserProfile, FollowBook, DownLoadBook
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -19,3 +19,12 @@ class FollowBookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(FollowBook, FollowBookAdmin)
+
+
+class DownloadAdmin(admin.ModelAdmin):
+    list_display = ['id', 'chapter', 'user', 'status']
+    search_fields = ['user', 'chapter']
+    raw_id_fields = ['user']
+
+
+admin.site.register(DownLoadBook, DownloadAdmin)

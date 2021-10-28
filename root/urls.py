@@ -1,3 +1,4 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
@@ -5,6 +6,7 @@ from drf_yasg.views import get_schema_view
 
 from authen.urls import auth_urlpatterns
 from books.urls import books_public_urlpatterns, books_urlpatterns
+from root.settings import base
 from userprofile.urls import userprofile_urlpatterns, follow_urlpatterns
 from bookcase.urls import history_urlpatterns
 from authen import views
@@ -32,3 +34,6 @@ urlpatterns = [
     path('signinapple', views.AppleView.as_view(), name='sigin-apple'),
     path('login', views.LoginAPI.as_view(), name='login'),
 ]
+
+if base.DEBUG is True:
+    urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)

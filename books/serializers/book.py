@@ -3,6 +3,7 @@ import logging
 from rest_framework import serializers
 
 from books.models import Book, TagBook, Tag, Chapter
+from userprofile.models import DownLoadBook
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,9 @@ class BookSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         chapter = Chapter.objects.filter(book=instance.id)
         tag_books = TagBook.objects.filter(book=instance.id)
+        user = self.context.get('request').user
+        download = DownLoadBook.objects.filter(chapter__in=chapter).filter(user=user)
+        count_chapter_download = download.count()
         result = ""
         if tag_books.exists():
             for tag_book in tag_books:
@@ -32,6 +36,8 @@ class BookSerializer(serializers.ModelSerializer):
             response['count_chapter'] = chapter.count()
         else:
             response['count_chapter'] = 0
+        breakpoint()
+        response['count__chapter_download'] = count_chapter_download
 
         return response
 
