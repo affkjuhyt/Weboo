@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from root.authentications import BaseUserJWTAuthentication
-from books.models import Book, Chapter
+from books.models import Book, Chapter, Comment
 from userprofile.models import DownLoadBook
 from books.serializers import BookSerializer, ChapterSerializer
 from bookcase.models import History

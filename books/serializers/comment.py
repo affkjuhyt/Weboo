@@ -21,6 +21,7 @@ class ReplySerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         reply = Reply.objects.filter(id=instance.id).first()
         response['user'] = reply.user.full_name
+        response['level'] = reply.user.level
 
         return response
 
@@ -38,11 +39,13 @@ class CommentSerializer(serializers.ModelSerializer):
         replys = Reply.objects.filter(comment=instance)
         if replys.exists():
             response['user'] = replys.first().user.full_name
+            response['level'] = replys.first().user.level
             response['time'] = timezone.now() - replys.first().date_added
             response['count_reply'] = replys.count()
             response['reply'] = ReplySerializer(replys, many=True).data
         else:
             response['user'] = ""
+            response['level'] = ""
             response['time'] = ""
             response['count_reply'] = 0
             response['reply'] = ""

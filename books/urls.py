@@ -21,12 +21,12 @@ public_router.register(
     CommentView,
     basename='v1-comments'
 )
-
-public_router.register(
-    r'comments',
-    CommentPostView,
-    basename='v1-add-reply'
-)
+#
+# public_router.register(
+#     r'comments',
+#     CommentPostView,
+#     basename='v1-add-reply'
+# )
 
 books_public_urlpatterns = public_router.urls
 
@@ -36,6 +36,12 @@ admin_router.register(
     r'book',
     BookAdminView,
     basename='v1-book'
+)
+
+admin_router.register(
+    r'comments',
+    CommentPostView,
+    basename='v1-add-reply'
 )
 
 books_urlpatterns = admin_router.urls

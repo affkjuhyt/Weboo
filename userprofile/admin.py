@@ -4,7 +4,7 @@ from userprofile.models import UserProfile, FollowBook, DownLoadBook
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'email', 'full_name', 'user_type', 'coin']
+    list_display = ['id', 'user', 'email', 'full_name', 'user_type', 'coin', 'level']
     search_fields = ['full_name', 'email']
     raw_id_fields = ['user']
 

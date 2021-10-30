@@ -10,7 +10,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
 from rest_framework.filters import SearchFilter
 
 from bookcase.models import History
-from books.models import Book, Comment, TagBook, Tag, Chapter
+from books.models import Book, Comment, TagBook, Tag, Chapter, Reply
 from books.serializers import BookSerializer, CommentSerializer, ChapterSerializer
 from userprofile.models import FollowBook, DownLoadBook
 from root.authentications import BaseUserJWTAuthentication
@@ -133,3 +133,18 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
         result_page = paginator.paginate_queryset(chapters, request)
         serializer = ChapterSerializer(result_page, context={"request": request}, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=['post'], url_path='add_comment')
+    def post_add_comment(self, request, *args, **kwargs):
+        content = request.data['content']
+        comment_id = request.data['comment_id']
+        try:
+            user = self.request.user
+            book = self.get_object()
+            if comment_id == "":
+                Reply.objects.create(comment_id=comment_id, user=user, content=content)
+            else:
+                Comment.objects.create(user=user, book=book, content=content)
+            return Response("Create comment successfully", status=status.HTTP_200_OK)
+        except:
+            return Response("Error", status=status.HTTP_404_NOT_FOUND)

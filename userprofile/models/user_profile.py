@@ -15,12 +15,12 @@ class UserProfile(BaseUserModel):
     MALE = 'male'
     FEMALE = 'female'
 
-    LEVEL0 = 'level0'
-    LEVEL1 = 'level1'
-    LEVEL2 = 'level2'
-    LEVEL3 = 'level3'
-    LEVEL4 = 'level4'
-    LEVEL5 = 'level5'
+    LEVEL0 = '0'
+    LEVEL1 = '1'
+    LEVEL2 = '2'
+    LEVEL3 = '3'
+    LEVEL4 = '4'
+    LEVEL5 = '5'
 
     USER_TYPES = (
         (ADMIN, 'Admin'),

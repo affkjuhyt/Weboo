@@ -9,6 +9,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
 
 from books.models import Comment, Reply
 from books.serializers import CommentSerializer, ReplySerializer
+from root.authentications import BaseUserJWTAuthentication
 
 logger = logging.getLogger(__name__.split('.')[0])
 
@@ -26,8 +27,8 @@ class CommentView(ReadOnlyModelViewSet):
 
 class CommentPostView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [BaseUserJWTAuthentication]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request):
         serializer = CommentSerializer(data=request.DATA, files=request.FILES)
@@ -37,10 +38,3 @@ class CommentPostView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Lis
 
     def get_queryset(self):
         return Comment.objects.filter()
-
-    @action(detail=True, methods=['post'], url_path='add_reply', serializer_class=CommentSerializer)
-    def post_add_reply(self, request, *args, **kwargs):
-        comment = self.get_object()
-        Reply.objects.create(comment=comment, user=request.user.id)
-
-        return Response('Create reply is successfully.', status=status.HTTP_200_OK)
