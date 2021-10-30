@@ -27,7 +27,7 @@ class BookView(ReadOnlyModelViewSet):
     search_fields = ['title']
 
     def get_queryset(self):
-        return Book.objects.filter(is_enable=True).order_by('-date_added')
+        return Book.objects.filter().order_by('-date_added')
 
     @action(detail=True, methods=['get'], url_path='total_comment', serializer_class=CommentSerializer)
     def get_comment(self, request, *args, **kwargs):
@@ -43,12 +43,15 @@ class BookView(ReadOnlyModelViewSet):
         return paginator.get_paginated_response(list_comments.data)
 
     @action(detail=True, methods=['get'], url_path='comment_out_standing', serializer_class=CommentSerializer)
-    def get_comment_out_standing(self, *args, **kwargs):
+    def get_comment_out_standing(self, request, *args, **kwargs):
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
         book = self.get_object()
-        comment = Comment.objects.filter(book=book).order_by('-like_count')[:3]
-        serializer = CommentSerializer(comment, many=True)
+        comment = Comment.objects.filter(book=book).order_by('-like_count')
+        result_page = paginator.paginate_queryset(comment, request)
+        comment_out_standings = CommentSerializer(result_page, context={"request": request}, many=True)
 
-        return Response(serializer.data)
+        return paginator.get_paginated_response(comment_out_standings.data)
 
     @action(detail=False, methods=['get'], url_path='suggest_book')
     def get_suggest_book(self, request, *args, **kwargs):

@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from root.authentications import BaseUserJWTAuthentication
 from books.models import Book, Chapter
+from userprofile.models import DownLoadBook
 from books.serializers import BookSerializer, ChapterSerializer
 from bookcase.models import History
 from rest_framework.viewsets import ViewSetMixin
@@ -40,3 +41,14 @@ class ChapterView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCre
             History.objects.create(user=user, book=book, chapter=chapter)
 
         return Response('Write log success', status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], url_path='delete_download')
+    def post_delete_download(self, request, *args, **kwargs):
+        chapter = self.get_object()
+        download_book = DownLoadBook.objects.filter(chapter=chapter).filter(user=self.request.user)
+        if len(download_book) > 0:
+            download_book.update(status=DownLoadBook.NOT_DOWNLOAD)
+
+            return Response("Delete book downloaded successfully", status=status.HTTP_200_OK)
+        else:
+            return Response("Khong co chapter nay", status=status.HTTP_404_NOT_FOUND)
