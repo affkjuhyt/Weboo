@@ -20,9 +20,23 @@ class Book(BaseTimeStampModel):
     COMIC = 'comic'
     NOVEL = 'novel'
 
+    STAR1 = 1
+    STAR2 = 2
+    STAR3 = 3
+    STAR4 = 4
+    STAR5 = 5
+
     SEX_TYPES = (
         (MALE, 'Male'),
         (FEMALE, 'Female')
+    )
+
+    STAR_STATUS = (
+        (STAR1, '1'),
+        (STAR2, '2'),
+        (STAR3, '3'),
+        (STAR4, '4'),
+        (STAR5, '5'),
     )
 
     BOOK_STATUS = (
@@ -46,7 +60,7 @@ class Book(BaseTimeStampModel):
     type = models.CharField(max_length=20, choices=BOOK_TYPES, default=COMIC)
     like_count = models.IntegerField(default=0)
     view_count = models.IntegerField(default=0)
-    star = models.IntegerField(default=0)
+    star = models.IntegerField(choices=STAR_STATUS, default=STAR1)
     is_enable = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
 

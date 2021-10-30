@@ -1,6 +1,7 @@
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 
-from books.apis.v1 import BookView, CommentView, CommentPostView, ChapterView, BookAdminView
+from books.apis.v1 import BookView, CommentView, CommentPostView, ChapterAdminView, ChapterView, BookAdminView, \
+    BookPageView
 
 public_router = ExtendedSimpleRouter()
 
@@ -21,12 +22,6 @@ public_router.register(
     CommentView,
     basename='v1-comments'
 )
-#
-# public_router.register(
-#     r'comments',
-#     CommentPostView,
-#     basename='v1-add-reply'
-# )
 
 books_public_urlpatterns = public_router.urls
 
@@ -42,6 +37,18 @@ admin_router.register(
     r'comments',
     CommentPostView,
     basename='v1-add-reply'
+)
+
+admin_router.register(
+    r'chapter',
+    ChapterAdminView,
+    basename='v1-chapter'
+)
+
+admin_router.register(
+    r'page',
+    BookPageView,
+    basename='v1-page'
 )
 
 books_urlpatterns = admin_router.urls

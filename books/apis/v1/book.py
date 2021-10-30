@@ -148,3 +148,30 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
             return Response("Create comment successfully", status=status.HTTP_200_OK)
         except:
             return Response("Error", status=status.HTTP_404_NOT_FOUND)
+
+
+class BookPageView(ReadOnlyModelViewSet):
+    serializer_class = BookSerializer
+    permission_classes = [AllowAny]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+    filter_backends = [SearchFilter]
+
+    def get_queryset(self):
+        return Book.objects.filter()
+
+    @action(detail=False, methods=['get'], url_path='page_book')
+    def get_page_book(self, request, *args, **kwargs):
+        type_book = request.GET.get('type_book','')
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        if type_book == 'hot':
+            books = Book.objects.order_by('-view_count', '-star', '-like_count')
+        elif type_book == 'new':
+            books = Book.objects.order_by('-date_added')
+        elif type_book == 'full':
+            books = Book.objects.filter()
+
+        result_page = paginator.paginate_queryset(books, request)
+        serializer = BookSerializer(result_page, context={"request": request}, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
