@@ -5,10 +5,12 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from authen.urls import auth_urlpatterns
+from post.urls import post_public_urlpatterns, post_urlpatterns
 from books.urls import books_public_urlpatterns, books_urlpatterns
 from root.settings import base
 from userprofile.urls import userprofile_urlpatterns, follow_urlpatterns
 from bookcase.urls import history_urlpatterns
+from group.urls import group_public_urlpatterns
 from authen import views
 
 schema_view = get_schema_view(
@@ -20,8 +22,10 @@ schema_view = get_schema_view(
     public=True,
 )
 
-external_public_urlpatterns = books_public_urlpatterns + userprofile_urlpatterns
-external_urlpatterns = follow_urlpatterns + auth_urlpatterns + history_urlpatterns + books_urlpatterns
+external_public_urlpatterns = books_public_urlpatterns + userprofile_urlpatterns + post_public_urlpatterns \
+                              + group_public_urlpatterns
+external_urlpatterns = follow_urlpatterns + auth_urlpatterns + history_urlpatterns + books_urlpatterns \
+                       + post_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),

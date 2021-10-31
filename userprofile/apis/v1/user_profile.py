@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_registration.exceptions import BadRequest
@@ -22,17 +24,21 @@ logger = logging.getLogger(__name__.split('.')[0])
 
 class UserPublicView(ReadOnlyModelViewSet):
     serializer_class = UserProfileSerializer
-    authentication_classes = [BaseUserJWTAuthentication]
+    permission_classes = [AllowAny]
     filter_fields = []
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def get_queryset(self):
-        return UserProfile.objects.filter(user_id=self.request.user.id).all()
+        return UserProfile.objects.filter()
 
-    def list(self, request, *args, **kwargs):
-        user_profile = self.get_queryset().first()
-        serializer = self.get_serializer(user_profile)
-        return Response(serializer.data)
+    @action(detail=True, methods=['get'], url_path='user_info')
+    def get_user_info(self, request, *args, **kwargs):
+        user = self.get_object()
+
+
+        return Response("ERRR")
+
+
 
 
 class UpdateInfo(ReadOnlyModelViewSet):
