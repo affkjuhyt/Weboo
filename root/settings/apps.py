@@ -22,4 +22,7 @@ INSTALLED_APPS = [
     'userprofile',
     'authen',
     'bookcase',
+    'post',
+    'filemedia',
+    'group',
 ]

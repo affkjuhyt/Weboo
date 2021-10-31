@@ -169,7 +169,9 @@ class BookPageView(ReadOnlyModelViewSet):
         elif type_book == 'new':
             books = Book.objects.order_by('-date_added')
         elif type_book == 'full':
-            books = Book.objects.filter()
+            books = Book.objects.filter(is_full=True)
+        elif type_book == 'propose':
+            books = Book.objects.filter(is_suggest=True)
 
         result_page = paginator.paginate_queryset(books, request)
         serializer = BookSerializer(result_page, context={"request": request}, many=True)

@@ -63,6 +63,8 @@ class Book(BaseTimeStampModel):
     star = models.IntegerField(choices=STAR_STATUS, default=STAR1)
     is_enable = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
+    is_full = models.BooleanField(default=False)
+    is_suggest = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s" % self.title
