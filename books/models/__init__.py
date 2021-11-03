@@ -4,3 +4,4 @@ from .tag import TagBook
 from .chapter import Chapter
 from .image import Image
 from .comment import Comment, Reply
+from .history_search import HistorySearch

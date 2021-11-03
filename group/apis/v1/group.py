@@ -13,7 +13,6 @@ from group.models import Group
 from group.serializers import GroupSerializer
 from post.models import Post
 from post.serializers import PostSerializer
-from root.authentications import BaseUserJWTAuthentication
 
 logger = logging.getLogger(__name__.split('.')[0])
 

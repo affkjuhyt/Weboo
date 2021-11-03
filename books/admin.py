@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from books.models import Book, Image, Comment, Reply, Chapter, Tag, TagBook
+from books.models import Book, Image, Comment, Reply, Chapter, Tag, TagBook, HistorySearch
 
 
 class BooksAdmin(admin.ModelAdmin):
@@ -47,6 +47,11 @@ class ReplyAdmin(admin.ModelAdmin):
     search_fields = ['comment', 'user', 'reply']
 
 
+class HistorySearchAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'text')
+    raw_id_fields = []
+
+
 admin.site.register(Book, BooksAdmin)
 admin.site.register(Chapter, ChaptersAdmin)
 admin.site.register(Image, ImagesAdmin)
@@ -54,3 +59,4 @@ admin.site.register(Tag, TagsAdmin)
 admin.site.register(TagBook, TagBooksAdmin)
 admin.site.register(Comment, CommentsAdmin)
 admin.site.register(Reply, ReplyAdmin)
+admin.site.register(HistorySearch, HistorySearchAdmin)
