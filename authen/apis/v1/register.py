@@ -13,6 +13,8 @@ from rest_registration.utils.responses import get_ok_response
 from rest_registration.utils.users import get_user_setting, get_user_by_verification_id
 from rest_registration.utils.verification import verify_signer_or_bad_request
 
+from userprofile.models import UserProfile
+from utils.common import full_name
 from utils.email import EmailUserNotification
 
 logger = logging.getLogger(__name__.split('.')[0])

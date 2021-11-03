@@ -49,7 +49,7 @@ class UserProfile(BaseUserModel):
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default=NORMAL)
     level = models.CharField(max_length=20, choices=LEVEL, default=LEVEL1)
     coin = models.IntegerField(default=0)
-    card_story = models.IntegerField(default=1)
+    point = models.IntegerField(default=1)
     avatar = models.ImageField(upload_to='userprofile/%Y/%m/%d', null=True, blank=True)
 
     def __str__(self):

@@ -35,10 +35,7 @@ class UserPublicView(ReadOnlyModelViewSet):
     def get_user_info(self, request, *args, **kwargs):
         user = self.get_object()
 
-
-        return Response("ERRR")
-
-
+        return Response(UserProfileSerializer(user).data)
 
 
 class UpdateInfo(ReadOnlyModelViewSet):
