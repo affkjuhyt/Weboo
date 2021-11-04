@@ -1,8 +1,14 @@
 import logging
+import os
+import zipfile
+from io import BytesIO
+from zipfile import ZipFile
 
-from django.contrib.postgres.aggregates import StringAgg
+from books.models.image import Image as ImageBook
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from rest_framework import generics, status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.decorators import action
@@ -11,12 +17,16 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
-from rest_framework.filters import SearchFilter
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
+
+from datetime import datetime
+today = datetime.now()
+today_path = today.strftime("%Y/%m/%d")
 
 from bookcase.models import History
 from books.models import Book, Comment, TagBook, Tag, Chapter, Reply, HistorySearch
 from books.serializers import BookSerializer, CommentSerializer, ChapterSerializer
+from root.settings import base
 from userprofile.models import FollowBook, DownLoadBook
 from root.authentications import BaseUserJWTAuthentication
 
@@ -128,6 +138,43 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
 
     def get_queryset(self):
         return Book.objects.filter()
+
+    @action(detail=False, methods=['post'], url_path='create_book', serializer_class=BookSerializer)
+    def post_create_book(self, request, delete_zip_import=True, *args, **kwargs):
+        zip_import = request.FILES['zip_import']
+        data = request.data
+        name = data.get('name')
+        author = data.get('author')
+        description = data.get('description')
+
+        book = Book.objects.create(title=name, author=author, description=description)
+        # Get ra name thu muc de luu vao chuong
+        # Sau do lay image de luu vao chuong
+        zip_file = zipfile.ZipFile(zip_import)
+        chapter = []
+        for name in zip_file.namelist():
+            if ".png" not in name:
+                name = name[:-1]
+                chapter.append(name)
+                Chapter.objects.create(title=name, book_id=book.id)
+            else:
+                data = zip_file.read(name)
+                try:
+                    from PIL import Image
+                    image = Image.open(BytesIO(data))
+                    image.load()
+                    image = Image.open(BytesIO(data))
+                    image.verify()
+                except ImportError:
+                    pass
+                except:
+                    continue
+                name = os.path.split(name)[1]
+                path = os.path.join('books', today_path, name)
+                saved_path = default_storage.save(path, ContentFile(data))
+                chapter_last = Chapter.objects.filter().last()
+                ImageBook.objects.create(image=saved_path, chapter=chapter_last)
+        return Response("Successfully")
 
     @action(detail=False, methods=['get'], url_path='relate_to', serializer_class=BookSerializer)
     def get_relate_to(self, request, *args, **kwargs):
