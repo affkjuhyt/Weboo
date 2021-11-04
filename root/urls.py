@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -12,6 +13,7 @@ from userprofile.urls import userprofile_urlpatterns, follow_urlpatterns
 from bookcase.urls import history_urlpatterns
 from group.urls import group_public_urlpatterns
 from authen import views
+from payments import views as payments
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -37,6 +39,7 @@ urlpatterns = [
     path('signinfb', views.FacebookView.as_view(), name='sigin-fb'),
     path('signinapple', views.AppleView.as_view(), name='sigin-apple'),
     path('login', views.LoginAPI.as_view(), name='login'),
+    url(r'^test-payment/$', payments.test_payment),
 ]
 
 if base.DEBUG is True:

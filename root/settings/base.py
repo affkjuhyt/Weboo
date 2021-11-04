@@ -24,6 +24,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$7=(j$^7hz-)^ty43gd@^bmkpjy!uf-$++6a+ybpz6e-(l8h=&'
 
+# Stripe
+STRIPE_PUB_KEY = 'pk_test_51JruriCfgBBzOco65hm5ue6YfP2gwhaXP5cGTYIXtRCpUicgVTBAOpRDShc6t91E86knP2PhL2gW5JyrUPkatNrJ00PRvTFVS7'
+STRIPE_SECRET_KEY = 'sk_test_51JruriCfgBBzOco65DnDtPQm5k4oWdClRX5Q1w2EoezoACB8zDYUnSedZ9KU8YPsyVlgcKkn9XnPa5nAyiye8H2H00YwhxryIz'
+
+STRIPE_PRICE_ID_MEMBER_MONTH = 'price_1Js9SOCfgBBzOco6DqJ5aaj0'
+STRIPE_PRICE_ID_MEMBER_VIP = 'price_1Js9UeCfgBBzOco6XtwW76Hm'
+
+STRIPE_WEBHOOK_KEY = 'whsec_iV0qP1UMZEvR53tkDW7rGBE6EgFZ6sxj'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 ENVIRONMENT = os.environ.get("APPS_ENVIRONMENT")
 if ENVIRONMENT == 'prod':

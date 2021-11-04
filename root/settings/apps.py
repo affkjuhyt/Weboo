@@ -25,4 +25,5 @@ INSTALLED_APPS = [
     'post',
     'filemedia',
     'group',
+    'payments',
 ]
