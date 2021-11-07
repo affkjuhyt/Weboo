@@ -4,6 +4,7 @@ import uuid
 
 from django.conf import settings
 from django.db import models
+from django.db.models import SET_NULL
 
 
 class BaseTimeStampModel(models.Model):
@@ -43,6 +44,16 @@ class BaseModel(BaseTimeStampModel):
 
 class BaseUUIDModel(BaseTimeStampModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
+        abstract = True
+
+
+class CoreModel(models.Model):
+    creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, related_query_name='creator_query', null=True, on_delete=SET_NULL, db_constraint=False)  # 创建者
+    dept_belong_id = models.CharField(max_length=100, null=True, blank=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
+    create_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True

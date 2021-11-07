@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'defender',
     'corsheaders',
+    'captcha',
     'django_extensions',
     'django_filters',
     'django_rq',
@@ -26,4 +27,5 @@ INSTALLED_APPS = [
     'filemedia',
     'group',
     'payments',
+    'system',
 ]
