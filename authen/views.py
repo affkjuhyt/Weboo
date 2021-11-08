@@ -1,5 +1,6 @@
 import datetime
 import logging
+from uuid import uuid4
 
 import requests
 from captcha.models import CaptchaStore
@@ -13,6 +14,7 @@ from django.db.models import Q
 from django.http import Http404
 from rest_framework import status, mixins, viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
@@ -26,7 +28,7 @@ from rest_registration.utils.verification import verify_signer_or_bad_request
 from validate_email import validate_email
 from rest_registration.settings import registration_settings
 
-from root.settings import base
+from root.settings import base, drf_jwt
 from system.models import LoginInfor
 from userprofile.models import UserProfile
 from utils.email import EmailUserNotification
@@ -237,3 +239,16 @@ class LoginAdminAPI(ObtainJSONWebToken):
         return ErrorResponse(data=serializer.errors, msg='username/password not correct')
 
 
+class LogoutView(APIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    prefix = drf_jwt.JWT_AUTH.get('JWT_AUTH_HEADER_PREFIX', 'JWT')
+
+    def post(self, request):
+        user = request.user
+        user.secret = uuid4()
+        user.save()
+        key = f"{self.prefix}_{user.username}"
+        if getattr(base, "REDIS_ENABLE", False):
+            cache.delete(key)
+        return SuccessResponse()

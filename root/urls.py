@@ -19,6 +19,7 @@ from bookcase.urls import history_urlpatterns
 from group.urls import group_public_urlpatterns
 from authen import views
 from payments import views as payments
+from utils.op_drf.response import SuccessResponse
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -41,7 +42,7 @@ class CaptchaRefresh(APIView):
             "image_url": captcha_image_url(new_key),
             "audio_url": captcha_audio_url(new_key) if ca_settings.CAPTCHA_FLITE_PATH else None,
         }
-        return Response(to_json_response)
+        return SuccessResponse(to_json_response)
 
 
 external_public_urlpatterns = books_public_urlpatterns + userprofile_urlpatterns + post_public_urlpatterns \
@@ -59,12 +60,15 @@ urlpatterns = [
     path('signinfb', views.FacebookView.as_view(), name='sigin-fb'),
     path('signinapple', views.AppleView.as_view(), name='sigin-apple'),
     path('login', views.LoginAPI.as_view(), name='login'),
-    path('admin/login', views.LoginAdminAPI.as_view(), name='admin-login'),
+    path('login_admin', views.LoginAdminAPI.as_view(), name='admin-login'),
     url(r"captcha/refresh/$", CaptchaRefresh.as_view(), name="captcha-refresh"),
     re_path('captcha/', include('captcha.urls')),
     url(r'^test-payment/$', payments.test_payment),
     re_path('api-token-auth', views.LoginAdminAPI.as_view(), name='api_token_auth'),
-    re_path(r'^login', views.LoginAdminAPI.as_view())
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    re_path(r'^login/$', views.LoginAdminAPI.as_view())
+    re_path(r'^logout/$', views.LogoutView.as_view()),
+    re_path(r'^getInfo/$', GetUserProfileView.as_view()),
 ]
 
 if base.DEBUG is True:

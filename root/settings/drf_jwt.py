@@ -11,9 +11,9 @@ JWT_AUTH = {
     'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'rest_framework_jwt.utils.jwt_get_username_from_payload_handler',
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
-
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_SECRET_KEY': settings.SECRET_KEY,
-    'JWT_GET_USER_SECRET_KEY': None,
+    'JWT_GET_USER_SECRET_KEY': 'utils.jwt_util.jwt_get_user_secret_key',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=5),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=6),
     'JWT_VERIFY': True,

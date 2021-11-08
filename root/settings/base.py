@@ -33,6 +33,8 @@ STRIPE_PRICE_ID_MEMBER_VIP = 'price_1Js9UeCfgBBzOco6XtwW76Hm'
 
 STRIPE_WEBHOOK_KEY = 'whsec_iV0qP1UMZEvR53tkDW7rGBE6EgFZ6sxj'
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 # SECURITY WARNING: don't run with debug turned on in production!
 ENVIRONMENT = os.environ.get("APPS_ENVIRONMENT")
 if ENVIRONMENT == 'prod':
@@ -59,16 +61,16 @@ CAPTCHA_NOISE_FUNCTIONS = (
 # CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.locale.LocaleMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# ]
 
 ROOT_URLCONF = 'root.urls'
 
@@ -113,6 +115,12 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('JWT',),
 }
+
+REDIS_ENABLE = True
+REDIS_DB = 1
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_PASSWORD = ''
 
 AUTH_USER_MODEL = 'auth.User'
 
