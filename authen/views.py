@@ -246,7 +246,7 @@ class LogoutView(APIView):
 
     def post(self, request):
         user = request.user
-        user.secret = uuid4()
+        # user.secret = uuid4()
         user.save()
         key = f"{self.prefix}_{user.username}"
         if getattr(base, "REDIS_ENABLE", False):

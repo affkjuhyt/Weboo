@@ -19,4 +19,4 @@ def jwt_get_user_secret_key(user):
     :param user:
     :return:
     """
-    return str(user.secret)
+    return str(user)

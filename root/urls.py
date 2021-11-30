@@ -60,15 +60,14 @@ urlpatterns = [
     path('signinfb', views.FacebookView.as_view(), name='sigin-fb'),
     path('signinapple', views.AppleView.as_view(), name='sigin-apple'),
     path('login', views.LoginAPI.as_view(), name='login'),
-    path('login_admin', views.LoginAdminAPI.as_view(), name='admin-login'),
+    path('login_admin/', views.LoginAdminAPI.as_view(), name='admin-login'),
     url(r"captcha/refresh/$", CaptchaRefresh.as_view(), name="captcha-refresh"),
     re_path('captcha/', include('captcha.urls')),
     url(r'^test-payment/$', payments.test_payment),
     re_path('api-token-auth', views.LoginAdminAPI.as_view(), name='api_token_auth'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    re_path(r'^login/$', views.LoginAdminAPI.as_view())
-    re_path(r'^logout/$', views.LogoutView.as_view()),
-    re_path(r'^getInfo/$', GetUserProfileView.as_view()),
+    path('logout/', views.LogoutView.as_view()),
+    # re_path(r'^getInfo/$', GetUserProfileView.as_view()),
 ]
 
 if base.DEBUG is True:
