@@ -27,7 +27,7 @@ class BookSerializer(serializers.ModelSerializer):
         chapter = Chapter.objects.filter(book=instance.id)
         tag_books = TagBook.objects.filter(book=instance.id)
         user = self.context.get('request').user
-        if user is None:
+        if user.id == None:
             pass
         else:
             download = DownLoadBook.objects.filter(chapter__in=chapter).filter(user=user)
