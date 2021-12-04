@@ -160,6 +160,7 @@ AUTH_KEYS_DIR = '%s/root/settings/auth_key' % BASE_DIR
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "static", "media")
+DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static", "download")
 FILEBROWSER_MEDIA_ROOT = MEDIA_ROOT
 FILEBROWSER_DIRECTORY = '/uploads/'
 STATIC_URL = '/static/'
@@ -167,3 +168,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static", "root")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static", "static"),
 )
+STATIC_ROOT1 = os.path.join(BASE_DIR, "static")

@@ -1,5 +1,10 @@
 import logging
+import os
+import zipfile
+from io import StringIO
+from zipfile import ZipFile
 
+from django.http import HttpResponse, StreamingHttpResponse, HttpResponseRedirect
 from rest_framework import generics, status
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
@@ -8,6 +13,8 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+import root.settings
+from root import settings
 from root.authentications import BaseUserJWTAuthentication
 from books.models import Book, Chapter, Comment, Image
 from userprofile.models import DownLoadBook
@@ -27,11 +34,42 @@ def modify_input_for_multiple_files(chapter_id, image):
 
 class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
     serializer_class = ChapterSerializer
-    authentication_classes = [BaseUserJWTAuthentication]
+
+    # authentication_classes = [BaseUserJWTAuthentication]
     permission_classes = [AllowAny]
 
     def get_queryset(self):
         return Chapter.objects.filter()
+
+    @action(detail=True, methods=['get'], url_path='download', serializer_class=ChapterSerializer)
+    def get_download(self, request, *args, **kwargs):
+        chapter = self.get_object()
+        images = Image.objects.filter(chapter=chapter)
+        filenames = []
+        for image in images:
+            filenames.append(image.image.url)
+
+        # Folder name in ZIP archive which contains the above files
+        # E.g [thearchive.zip]/somefiles/file2.txt
+        # FIXME: Set this to something better
+        zip_subdir = "somefiles"
+        zip_filename = "%s.zip" % zip_subdir
+
+        s = StringIO()
+
+        zf = zipfile.ZipFile(s, "w")
+
+        for fpath in filenames:
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(root.settings.MEDIA_ROOT, fname)
+            zf.write(root.settings.STATIC_ROOT1 + fpath, zip_path)
+
+        zf.close()
+
+        resp = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+        resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+
+        return resp
 
     @action(detail=True, methods=['post'], url_path='action_chapter', serializer_class=ChapterSerializer)
     def post_action_chapter(self, request, *args, **kwargs):

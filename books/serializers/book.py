@@ -3,24 +3,31 @@ import logging
 from rest_framework import serializers
 
 from books.models import Book, TagBook, Tag, Chapter, Comment, Reply
+from books.serializers.chapter import ChapterSerializer
 from userprofile.models import DownLoadBook, FollowBook
 
 logger = logging.getLogger(__name__)
 
 
 class BookSerializer(serializers.ModelSerializer):
+    chapter = serializers.SerializerMethodField()
+
     class Meta:
         model = Book
         fields = ['id', 'title', 'is_enable', 'thumbnail', 'description', 'author', 'date_modified',
-                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip']
+                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip', 'chapter']
         read_only_fields = ['id', 'is_enable']
+
+    def get_chapter(self, obj):
+        result = Chapter.objects.filter(book=obj)
+        return ChapterSerializer(result, many=True).data
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
         chapter = Chapter.objects.filter(book=instance.id)
         tag_books = TagBook.objects.filter(book=instance.id)
         user = self.context.get('request').user
-        if user.id == None:
+        if user is None:
             pass
         else:
             download = DownLoadBook.objects.filter(chapter__in=chapter).filter(user=user)
