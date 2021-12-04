@@ -1,7 +1,7 @@
 import logging
 import os
 import zipfile
-from io import StringIO
+from io import StringIO, BytesIO
 from zipfile import ZipFile
 
 from django.http import HttpResponse, StreamingHttpResponse, HttpResponseRedirect
@@ -25,11 +25,11 @@ from rest_framework.viewsets import ViewSetMixin, ReadOnlyModelViewSet
 logger = logging.getLogger(__name__.split('.')[0])
 
 
-def modify_input_for_multiple_files(chapter_id, image):
-    dict = {}
-    dict['chapter'] = chapter_id
-    dict['image'] = image
-    return dict
+# def modify_input_for_multiple_files(chapter_id, image):
+#     dict = {}
+#     dict['chapter'] = chapter_id
+#     dict['image'] = image
+#     return dict
 
 
 class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
@@ -45,31 +45,26 @@ class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Li
     def get_download(self, request, *args, **kwargs):
         chapter = self.get_object()
         images = Image.objects.filter(chapter=chapter)
-        filenames = []
+        filelist = []
         for image in images:
-            filenames.append(image.image.url)
+            filelist.append(image.image.url)
 
-        # Folder name in ZIP archive which contains the above files
-        # E.g [thearchive.zip]/somefiles/file2.txt
-        # FIXME: Set this to something better
-        zip_subdir = "somefiles"
-        zip_filename = "%s.zip" % zip_subdir
+        # filelist = [MyModel.path_to_file1, MyModel.path_to_file2, MyModel.path_to_file3]
+        byte_data = BytesIO()
+        zip_name = "%s.zip" % chapter.id
+        zip_file = zipfile.ZipFile(byte_data, 'w')
 
-        s = StringIO()
+        for file in filelist:
+            filename = os.path.basename(os.path.normpath(file))
+            zip_file.write(file, filename)
+        zip_file.close()
 
-        zf = zipfile.ZipFile(s, "w")
+        response = HttpResponse(byte_data.getvalue(), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_name
 
-        for fpath in filenames:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(root.settings.MEDIA_ROOT, fname)
-            zf.write(root.settings.STATIC_ROOT1 + fpath, zip_path)
+        zip_file.printdir()
 
-        zf.close()
-
-        resp = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
-        resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-
-        return resp
+        return response
 
     @action(detail=True, methods=['post'], url_path='action_chapter', serializer_class=ChapterSerializer)
     def post_action_chapter(self, request, *args, **kwargs):
@@ -100,25 +95,25 @@ class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Li
         else:
             return Response("Khong co chapter nay", status=status.HTTP_404_NOT_FOUND)
 
-    @action(detail=True, methods=['post'], url_path='create_book')
-    def post_book(self, request, *args, **kwargs):
-        chapter_id = self.get_object().id
-        images = dict((request.data).lists())['image']
-        flag = 1
-        arr = []
-        for img_name in images:
-            modified_data = modify_input_for_multiple_files(chapter_id,
-                                                            img_name)
-            file_serializer = ImageSerializer(data=modified_data)
-            if file_serializer.is_valid():
-                file_serializer.save()
-                arr.append(file_serializer.data)
-            else:
-                flag = 0
-        if flag == 1:
-            return Response(arr, status=status.HTTP_201_CREATED)
-        else:
-            return Response(arr, status=status.HTTP_400_BAD_REQUEST)
+    # @action(detail=True, methods=['post'], url_path='create_book')
+    # def post_book(self, request, *args, **kwargs):
+    #     chapter_id = self.get_object().id
+    #     images = dict((request.data).lists())['image']
+    #     flag = 1
+    #     arr = []
+    #     for img_name in images:
+    #         modified_data = modify_input_for_multiple_files(chapter_id,
+    #                                                         img_name)
+    #         file_serializer = ImageSerializer(data=modified_data)
+    #         if file_serializer.is_valid():
+    #             file_serializer.save()
+    #             arr.append(file_serializer.data)
+    #         else:
+    #             flag = 0
+    #     if flag == 1:
+    #         return Response(arr, status=status.HTTP_201_CREATED)
+    #     else:
+    #         return Response(arr, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChapterView(ReadOnlyModelViewSet):
