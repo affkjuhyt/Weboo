@@ -71,9 +71,15 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class BookAdminSerializer(serializers.ModelSerializer):
+    chapter = serializers.SerializerMethodField()
+
     class Meta:
         model = Book
-        fields = ['id', 'title', 'is_enable', 'thumbnail', 'description', 'author', 'date_modified',
-                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip', 'is_full']
+        fields = ['chapter']
         read_only_fields = ['id', 'is_enable']
+
+    def get_chapter(self, obj):
+        result = Chapter.objects.filter(book=obj)
+        return ChapterAdminSerializer(result, many=True).data
+
 

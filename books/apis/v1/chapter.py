@@ -14,6 +14,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 import root.settings
+from books.serializers.chapter import ChapterAdminSerializer
 from root import settings
 from root.authentications import BaseUserJWTAuthentication
 from books.models import Book, Chapter, Comment, Image
@@ -33,7 +34,7 @@ logger = logging.getLogger(__name__.split('.')[0])
 
 
 class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
-    serializer_class = ChapterSerializer
+    serializer_class = ChapterAdminSerializer
 
     # authentication_classes = [BaseUserJWTAuthentication]
     permission_classes = [AllowAny]
