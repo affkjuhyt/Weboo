@@ -57,7 +57,7 @@ class ChapterAdminSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Chapter
-        fields = ['image']
+        fields = ['images']
         read_only_fields = ['id']
 
     def get_images(self, obj):
