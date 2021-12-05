@@ -37,14 +37,16 @@ class ChapterSerializer(serializers.ModelSerializer):
             return response
         else:
             user = self.context.get('request').user
-            chapter_ids = DownLoadBook.objects.filter(user=user).filter(chapter=instance).exclude(
-                status=[DownLoadBook.NOT_DOWNLOAD]).values_list('chapter_id',
-                                                                                    flat=True)
-            if instance.id in chapter_ids:
-                chapter_downloaded = DownLoadBook.objects.filter(user=user).filter(chapter=instance).exclude(
-                    status=[DownLoadBook.NOT_DOWNLOAD, DownLoadBook.ERROR]).first()
-                response['status_download'] = chapter_downloaded.status
+            if user.id == None:
+                pass
             else:
-                response['status_download'] = DownLoadBook.NOT_DOWNLOAD
+                chapter_ids = DownLoadBook.objects.filter(user=user).filter(chapter=instance).exclude(
+                    status=[DownLoadBook.NOT_DOWNLOAD]).values_list('chapter_id', flat=True)
+                if instance.id in chapter_ids:
+                    chapter_downloaded = DownLoadBook.objects.filter(user=user).filter(chapter=instance).exclude(
+                        status=[DownLoadBook.NOT_DOWNLOAD, DownLoadBook.ERROR]).first()
+                    response['status_download'] = chapter_downloaded.status
+                else:
+                    response['status_download'] = DownLoadBook.NOT_DOWNLOAD
 
             return response
