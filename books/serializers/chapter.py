@@ -50,3 +50,11 @@ class ChapterSerializer(serializers.ModelSerializer):
                     response['status_download'] = DownLoadBook.NOT_DOWNLOAD
 
             return response
+
+
+class ChapterAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chapter
+        fields = ['id', 'book', 'number', 'title', 'thumbnail', 'date_modified',
+                  'date_added', 'like_count', 'is_deleted']
+        read_only_fields = ['id']

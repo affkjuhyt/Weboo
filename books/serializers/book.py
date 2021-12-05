@@ -3,7 +3,7 @@ import logging
 from rest_framework import serializers
 
 from books.models import Book, TagBook, Tag, Chapter, Comment, Reply
-from books.serializers.chapter import ChapterSerializer
+from books.serializers.chapter import ChapterSerializer, ChapterAdminSerializer
 from userprofile.models import DownLoadBook, FollowBook
 
 logger = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_chapter(self, obj):
         result = Chapter.objects.filter(book=obj)
-        return ChapterSerializer(result, many=True).data
+        return ChapterAdminSerializer(result, many=True).data
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
