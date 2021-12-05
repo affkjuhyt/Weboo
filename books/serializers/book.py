@@ -15,7 +15,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'is_enable', 'thumbnail', 'description', 'author', 'date_modified',
-                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip','is_full', 'chapter']
+                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip', 'is_full', 'chapter']
         read_only_fields = ['id', 'is_enable']
 
     def get_chapter(self, obj):
@@ -68,4 +68,12 @@ class BookSerializer(serializers.ModelSerializer):
             response['tag'] = ""
 
         return response
+
+
+class BookAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ['id', 'title', 'is_enable', 'thumbnail', 'description', 'author', 'date_modified',
+                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip', 'is_full']
+        read_only_fields = ['id', 'is_enable']
 

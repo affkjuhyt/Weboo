@@ -1,8 +1,5 @@
 import logging
 
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ReadOnlyModelViewSet
