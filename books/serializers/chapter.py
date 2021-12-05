@@ -2,7 +2,7 @@ import logging
 
 from rest_framework import serializers
 
-from books.models import Chapter, Image
+from books.models import Chapter, Image, Comment, Reply
 from books.serializers.image import ImageSerializer
 from userprofile.models import DownLoadBook
 
@@ -66,9 +66,17 @@ class ChapterAdminSerializer(serializers.ModelSerializer):
 
 
 class ChapterViewSerializer(serializers.ModelSerializer):
+    count_comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Chapter
-        fields = ['id', 'book', 'number', 'title', 'thumbnail', 'date_modified',
+        fields = ['id', 'book', 'number', 'title', 'thumbnail', 'count_comments', 'date_modified',
                   'date_added', 'like_count', 'is_deleted']
         read_only_fields = ['id']
+
+    def get_count_comments(self, obj):
+        comment = Comment.objects.filter(chapter=obj).count()
+        comment_ids = Comment.objects.filter(chapter=obj).values_list('id')
+        reply = Reply.objects.filter(comment_id__in=comment_ids).count()
+
+        return comment + reply
