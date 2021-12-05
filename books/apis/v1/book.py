@@ -142,7 +142,7 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
     def get_queryset(self):
         return Book.objects.filter()
 
-    @action(detail=False, methods=['post'], url_path='create_book', serializer_class=BookSerializer)
+    @action(detail=False, methods=['posts'], url_path='create_book', serializer_class=BookSerializer)
     def post_create_book(self, request, delete_zip_import=True, *args, **kwargs):
         zip_import = request.FILES['zip_import']
         data = request.data
@@ -198,7 +198,7 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
         else:
             return Response("Khong co truyen lien quan")
 
-    @action(detail=True, methods=['post'], url_path='follow_book')
+    @action(detail=True, methods=['posts'], url_path='follow_book')
     def post_follow_book(self, request, *args, **kwargs):
         try:
             book = self.get_object()
@@ -216,7 +216,7 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
         except:
             return Response("Error", status=status.HTTP_404_NOT_FOUND)
 
-    @action(detail=True, methods=['post'], url_path='delete_download')
+    @action(detail=True, methods=['posts'], url_path='delete_download')
     def post(self, request, *args, **kwargs):
         try:
             book = self.get_object()
@@ -241,7 +241,7 @@ class BookAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListC
         serializer = ChapterSerializer(result_page, context={"request": request}, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-    @action(detail=True, methods=['post'], url_path='add_comment')
+    @action(detail=True, methods=['posts'], url_path='add_comment')
     def post_add_comment(self, request, *args, **kwargs):
         content = request.data['content']
         comment_id = request.data['comment_id']

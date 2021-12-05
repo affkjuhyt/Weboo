@@ -4,7 +4,7 @@ from django.db import models
 from .chapter import Chapter
 
 from utils.base_models import BaseTimeStampModel
-from post.models import Post
+from posts.models import Post
 
 logger = logging.getLogger(__name__.split('.')[0])
 

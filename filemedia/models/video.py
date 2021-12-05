@@ -2,7 +2,7 @@ import logging
 
 from django.db import models
 
-from post.models import Post
+from posts.models import Post
 from utils.base_models import BaseTimeStampModel
 
 logger = logging.getLogger(__name__.split('.')[0])

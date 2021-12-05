@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSetMixin, ReadOnlyModelViewSet
 
 from root.authentications import BaseUserJWTAuthentication
-from group.models import GroupUser, Group
-from group.serializers import GroupUserSerializer, GroupSerializer
+from groups.models import GroupUser, Group
+from groups.serializers import GroupUserSerializer, GroupSerializer
 
 
 class UserGroupViewSet(ReadOnlyModelViewSet):

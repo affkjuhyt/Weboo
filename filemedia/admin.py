@@ -4,20 +4,20 @@ from filemedia.models import File, Video
 
 
 class FileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'post', 'file')
+    list_display = ('id', 'posts', 'file')
     search_fields = ['id']
     raw_id_fields = []
-    list_filter = ['post']
+    list_filter = ['posts']
 
 
 admin.site.register(File, FileAdmin)
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'post', 'video')
+    list_display = ('id', 'posts', 'video')
     search_fields = ['id']
     raw_id_fields = []
-    list_filter = ['post']
+    list_filter = ['posts']
 
 
 admin.site.register(Video, VideoAdmin)

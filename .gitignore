@@ -1,7 +1,7 @@
 /environments.env
 /.venv/
 /venv/
-/static/
+/static/media
 /main_debug.log
 /dump.rdb
 __pycache__/

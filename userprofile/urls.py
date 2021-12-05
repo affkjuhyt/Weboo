@@ -41,9 +41,9 @@ private_router.register(
 )
 
 private_router.register(
-    r'group',
+    r'groups',
     UserGroupViewSet,
-    basename='v1-group'
+    basename='v1-groups'
 )
 
 follow_urlpatterns = private_router.urls

@@ -7,15 +7,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0001_initial'),
+        ('posts', '0001_initial'),
         ('books', '0016_book_is_suggest'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='image',
-            name='post',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.Post'),
+            name='posts',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='posts.Post'),
         ),
         migrations.AlterField(
             model_name='image',

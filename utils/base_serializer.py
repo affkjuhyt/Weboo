@@ -10,7 +10,7 @@ from rest_framework import mixins, viewsets
 
 
 
-def custom_view(detail=True, method='post'):
+def custom_view(detail=True, method='posts'):
     class CustomClass(
         APIView
     ):

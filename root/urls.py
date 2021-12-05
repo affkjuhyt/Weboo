@@ -11,12 +11,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authen.urls import auth_urlpatterns
-from post.urls import post_public_urlpatterns, post_urlpatterns
+from posts.urls import post_public_urlpatterns, post_urlpatterns
 from books.urls import books_public_urlpatterns, books_urlpatterns
 from root.settings import base
 from userprofile.urls import userprofile_urlpatterns, follow_urlpatterns
 from bookcase.urls import history_urlpatterns
-from group.urls import group_public_urlpatterns
+from groups.urls import group_public_urlpatterns
 from authen import views
 from payments import views as payments
 from utils.op_drf.response import SuccessResponse

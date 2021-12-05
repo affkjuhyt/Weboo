@@ -22,7 +22,7 @@ class HistoryView(ViewSetMixin, generics.ListCreateAPIView):
     def get_queryset(self):
         return History.objects.filter(user=self.request.user, hide=False).all().order_by('date_modified')
 
-    @action(detail=False, methods=['post'], url_path='delete_history', serializer_class=HistorySerializer)
+    @action(detail=False, methods=['posts'], url_path='delete_history', serializer_class=HistorySerializer)
     def post_delete_history(self, request, *args, **kwargs):
         list_history_id = request.data.get("list_id")
         for history_id in list_history_id:

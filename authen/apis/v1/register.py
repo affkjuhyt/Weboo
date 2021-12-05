@@ -60,7 +60,7 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['posts'],
         url_path='verify',
         serializer_class=VerifyRegistrationSerializer,
         permission_classes=[]

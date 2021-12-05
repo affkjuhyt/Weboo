@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('post', '0001_initial'),
+        ('posts', '0001_initial'),
     ]
 
     operations = [
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('is_deleted', models.BooleanField(default=False)),
                 ('video', models.FileField(null=True, upload_to='filemedia/%Y/%m/%d')),
-                ('post', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.Post')),
+                ('posts', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='posts.Post')),
             ],
             options={
                 'abstract': False,
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('is_deleted', models.BooleanField(default=False)),
                 ('file', models.FileField(null=True, upload_to='filemedia/%Y/%m/%d')),
-                ('post', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.Post')),
+                ('posts', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='posts.Post')),
             ],
             options={
                 'abstract': False,

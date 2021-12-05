@@ -67,7 +67,7 @@ class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Li
 
         return response
 
-    @action(detail=True, methods=['post'], url_path='action_chapter', serializer_class=ChapterSerializer)
+    @action(detail=True, methods=['posts'], url_path='action_chapter', serializer_class=ChapterSerializer)
     def post_action_chapter(self, request, *args, **kwargs):
         user = self.request.user
         chapter = self.get_object()
@@ -85,7 +85,7 @@ class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Li
 
         return Response('Write log success', status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'], url_path='delete_download')
+    @action(detail=True, methods=['posts'], url_path='delete_download')
     def post_delete_download(self, request, *args, **kwargs):
         chapter = self.get_object()
         download_book = DownLoadBook.objects.filter(chapter=chapter).filter(user=self.request.user)
@@ -96,7 +96,7 @@ class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Li
         else:
             return Response("Khong co chapter nay", status=status.HTTP_404_NOT_FOUND)
 
-    # @action(detail=True, methods=['post'], url_path='create_book')
+    # @action(detail=True, methods=['posts'], url_path='create_book')
     # def post_book(self, request, *args, **kwargs):
     #     chapter_id = self.get_object().id
     #     images = dict((request.data).lists())['image']

@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__.split('.')[0])
 class PasswordViewSet(viewsets.GenericViewSet):
     @action(
         detail=False,
-        methods=['post'],
+        methods=['posts'],
         url_path='change',
         serializer_class=ChangePasswordSerializer,
         authentication_classes=[BaseUserJWTAuthentication, ]
@@ -40,7 +40,7 @@ class PasswordViewSet(viewsets.GenericViewSet):
         user.save()
         return get_ok_response(_('Password changed successfully'))
 
-    @action(detail=False, methods=['post'], url_path='forgot', serializer_class=DefaultSendResetPasswordLinkSerializer)
+    @action(detail=False, methods=['posts'], url_path='forgot', serializer_class=DefaultSendResetPasswordLinkSerializer)
     def forgot(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -65,7 +65,7 @@ class PasswordViewSet(viewsets.GenericViewSet):
 
         return get_ok_response('Reset link sent')
 
-    @action(detail=False, methods=['post'], url_path='reset', serializer_class=ResetPasswordSerializer)
+    @action(detail=False, methods=['posts'], url_path='reset', serializer_class=ResetPasswordSerializer)
     def reset(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
