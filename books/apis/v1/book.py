@@ -20,6 +20,9 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 
 from datetime import datetime
+
+from books.serializers.book import BookAdminSerializer
+
 today = datetime.now()
 today_path = today.strftime("%Y/%m/%d")
 
@@ -34,7 +37,7 @@ logger = logging.getLogger(__name__.split('.')[0])
 
 
 class BookView(ReadOnlyModelViewSet):
-    serializer_class = BookSerializer
+    serializer_class = BookAdminSerializer
     permission_classes = [AllowAny]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
     authentication_classes = [SessionAuthentication, BasicAuthentication]
