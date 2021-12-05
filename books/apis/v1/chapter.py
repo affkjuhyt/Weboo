@@ -118,7 +118,7 @@ class ChapterAdminView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.Li
 
 
 class ChapterView(ReadOnlyModelViewSet):
-    serializer_class = ChapterSerializer
+    serializer_class = ChapterAdminSerializer
     permission_classes = [AllowAny]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
     filter_backends = [SearchFilter]
