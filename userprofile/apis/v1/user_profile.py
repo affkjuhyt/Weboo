@@ -25,17 +25,18 @@ logger = logging.getLogger(__name__.split('.')[0])
 class UserPublicView(ReadOnlyModelViewSet):
     serializer_class = UserProfileSerializer
     permission_classes = [AllowAny]
+    authentication_classes = [BaseUserJWTAuthentication]
     filter_fields = []
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def get_queryset(self):
         return UserProfile.objects.filter()
 
-    @action(detail=True, methods=['get'], url_path='user_info')
+    @action(detail=False, methods=['get'], url_path='user_info')
     def get_user_info(self, request, *args, **kwargs):
-        user = self.get_object()
-
-        return Response(UserProfileSerializer(user).data)
+        user = self.request.user
+        user_profile = UserProfile.objects.filter(id=user.id).first()
+        return Response(UserProfileSerializer(user_profile).data)
 
 
 class UpdateInfo(ReadOnlyModelViewSet):

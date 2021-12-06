@@ -44,10 +44,10 @@ class CaptchaRefresh(APIView):
         return SuccessResponse(to_json_response)
 
 
-external_public_urlpatterns = books_public_urlpatterns + userprofile_urlpatterns + post_public_urlpatterns \
+external_public_urlpatterns = books_public_urlpatterns + post_public_urlpatterns \
                               + group_public_urlpatterns
 external_urlpatterns = follow_urlpatterns + auth_urlpatterns + history_urlpatterns + books_urlpatterns \
-                       + post_urlpatterns
+                       + post_urlpatterns + userprofile_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
