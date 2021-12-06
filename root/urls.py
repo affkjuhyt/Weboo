@@ -7,7 +7,6 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authen.urls import auth_urlpatterns

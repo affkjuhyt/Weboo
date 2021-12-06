@@ -79,7 +79,7 @@ class BookAdminSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'is_enable']
 
     def get_chapter(self, obj):
-        result = Chapter.objects.filter(book=obj)
+        result = Chapter.objects.filter(book=obj).order_by('-date_added')
         return ChapterViewSerializer(result, many=True).data
 
 

@@ -25,7 +25,6 @@ class HistorySearchView(ReadOnlyModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='trend', serializer_class=HistorySearchSerializer)
     def get_relate_to(self, request, *args, **kwargs):
-        user = self.request.user
         histories = HistorySearch.objects.filter(user=self.request.user).order_by('-date_added')
         paginator = PageNumberPagination()
         paginator.page_size = 10
