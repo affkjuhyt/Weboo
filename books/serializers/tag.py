@@ -3,7 +3,7 @@ import logging
 from rest_framework import serializers
 
 from books.models import Tag, TagBook, Book
-from books.serializers.book import BookAdminSerializer
+from books.serializers.book import BookAdminSerializer, BookAdminViewSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class TagSerializer(serializers.ModelSerializer):
         tag_book_ids = TagBook.objects.filter(tag__name=obj.name).values_list('book')
         books = Book.objects.filter(pk__in=tag_book_ids)
 
-        return BookAdminSerializer(books, many=True).data
+        return BookAdminViewSerializer(books, many=True).data
 
 
 class TagBookSerializer(serializers.ModelSerializer):

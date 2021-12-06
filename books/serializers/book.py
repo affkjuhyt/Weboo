@@ -83,3 +83,11 @@ class BookAdminSerializer(serializers.ModelSerializer):
         return ChapterViewSerializer(result, many=True).data
 
 
+class BookAdminViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ['id', 'title', 'is_enable', 'thumbnail', 'description', 'author', 'date_modified',
+                  'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip', 'is_full']
+        read_only_fields = ['id', 'is_enable']
+
+

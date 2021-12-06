@@ -13,9 +13,9 @@ admin.site.register(Group, GroupAdmin)
 
 
 class GroupUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'groups', 'user')
+    list_display = ('id', 'group', 'user')
     search_fields = ['id']
-    list_filter = ['groups']
+    list_filter = ['group']
 
 
 admin.site.register(GroupUser, GroupUserAdmin)
