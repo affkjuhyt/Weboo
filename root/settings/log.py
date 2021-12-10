@@ -42,7 +42,7 @@ LOGGING = {
             'handlers': ['proj_log_file'],
             'level': 'DEBUG',
         },
-        'utils': {
+        'util': {
             'handlers': ['proj_log_file'],
             'level': 'DEBUG',
         },

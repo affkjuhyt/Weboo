@@ -33,7 +33,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.jwt.jwt_response_payload_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'util.jwt.jwt_response_payload_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',

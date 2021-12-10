@@ -23,8 +23,11 @@ INSTALLED_APPS = [
     'userprofile',
     'authen',
     'bookcase',
-    'posts',
     'filemedia',
+    'analytics',
+    'recommender',
+    'posts',
     'groups',
-    'payments'
+    'payments',
+    'collector'
 ]

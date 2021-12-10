@@ -1,14 +1,13 @@
 import logging
 
 from rest_framework import generics, status
-from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSetMixin
 
-from books.models import Comment, Reply
-from books.serializers import CommentSerializer, ReplySerializer
+from books.models import Comment
+from books.serializers import CommentSerializer
 from root.authentications import BaseUserJWTAuthentication
 
 logger = logging.getLogger(__name__.split('.')[0])

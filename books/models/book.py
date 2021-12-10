@@ -1,7 +1,6 @@
 import logging
 
 from django.db import models
-from django.conf import settings
 
 from utils.base_models import BaseTimeStampModel
 

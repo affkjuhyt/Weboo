@@ -66,7 +66,9 @@ urlpatterns = [
     # re_path('api-token-auth', views.LoginAdminAPI.as_view(), name='api_token_auth'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('logout/', views.LogoutView.as_view()),
+    url(r'^collect/', include('collector.urls')),
     # re_path(r'^getInfo/$', GetUserProfileView.as_view()),
+    url(r'^rec/', include('recommender.urls'))
 ]
 
 if base.DEBUG is True:
