@@ -28,6 +28,7 @@ class CommentView(ReadOnlyModelViewSet):
 class CommentPostView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [BaseUserJWTAuthentication]
+    permission_classes = [AllowAny]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request):
