@@ -1,6 +1,6 @@
 import logging
 
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -17,7 +17,6 @@ class CommentView(ReadOnlyModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [AllowAny]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
-    # filter_backends = []
     search_fields = ['content']
 
     def get_queryset(self):
@@ -27,6 +26,7 @@ class CommentView(ReadOnlyModelViewSet):
 class CommentPostView(ViewSetMixin, generics.RetrieveUpdateAPIView, generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [BaseUserJWTAuthentication]
+    permission_classes = [AllowAny]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request):
