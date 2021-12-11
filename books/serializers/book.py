@@ -2,6 +2,7 @@ import logging
 
 from rest_framework import serializers
 
+from apps.vadmin.op_drf.serializers import CustomModelSerializer
 from books.models import Book, TagBook, Tag, Chapter, Comment, Reply
 from books.serializers.chapter import ChapterSerializer, ChapterAdminSerializer, ChapterViewSerializer
 from userprofile.models import DownLoadBook, FollowBook
@@ -90,4 +91,33 @@ class BookAdminViewSerializer(serializers.ModelSerializer):
                   'date_added', 'sex', 'status', 'type', 'like_count', 'view_count', 'star', 'is_vip', 'is_full']
         read_only_fields = ['id', 'is_enable']
 
+
+class BookDataSerializer(CustomModelSerializer):
+    """
+    BookDataSerializer
+    """
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+
+class ExportBookDataSerializer(CustomModelSerializer):
+    """
+    ExportBookDataSerializer
+    """
+
+    class Meta:
+        model = Book
+        fields = ('id', 'title', 'author', 'status', 'type', 'like_count', 'view_count', 'star', 'description')
+
+
+class BookDataCreateUpdateSerializer(CustomModelSerializer):
+    """
+    BookCreateSerializer
+    """
+
+    class Meta:
+        model = Book
+        fields = '__all__'
 

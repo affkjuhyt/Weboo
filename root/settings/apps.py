@@ -29,5 +29,11 @@ INSTALLED_APPS = [
     'posts',
     'groups',
     'payments',
-    'collector'
+    'collector',
+
+    'apps.vadmin.permission',
+    'apps.vadmin.op_drf',
+    'apps.vadmin.system',
+    'apps.vadmin.celerys',
+    'apps.vadmin.monitor'
 ]

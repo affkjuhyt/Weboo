@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from rest_framework import exceptions
 from rest_framework_jwt.utils import jwt_decode_handler
 
-from apps.vadmin.permission.models.users import UserProfile
+from userprofile.models import UserProfile
 from apps.vadmin.util.jwt_util import jwt_get_session_id
 
 logger = logging.getLogger(__name__)

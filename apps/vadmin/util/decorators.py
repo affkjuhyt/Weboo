@@ -10,11 +10,11 @@ from datetime import datetime
 
 from django.conf import settings
 from django.utils import six
-from django.utils.decorators import available_attrs
+# from django.utils.decorators import available_attrs
 from rest_framework.response import Response
 from rest_framework_extensions.settings import extensions_api_settings
 
-from application.celery import app
+from root.celery import app
 from apps.vadmin.system.models import CeleryLog
 from apps.vadmin.util.string_util import bas64_encode_text, bas64_decode_text
 
@@ -275,7 +275,7 @@ class CacheResponse(object):
     def __call__(self, func):
         this = self
 
-        @functools.wraps(func, assigned=available_attrs(func))
+        # @functools.wraps(func, assigned=available_attrs(func))
         def inner(self, request, *args, **kwargs):
             return this.process_cache_response(
                 view_instance=self,

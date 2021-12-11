@@ -65,5 +65,9 @@ class Book(BaseTimeStampModel):
     is_full = models.BooleanField(default=False)
     is_suggest = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = 'book'
+        verbose_name_plural = verbose_name
+
     def __str__(self):
         return "%s" % self.title

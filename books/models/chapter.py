@@ -15,5 +15,9 @@ class Chapter(BaseTimeStampModel):
     thumbnail = models.ImageField(upload_to='books/%Y/%m/%d', null=True, blank=True)
     like_count = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'chapter'
+        verbose_name_plural = verbose_name
+
     def __str__(self):
         return "%s" % self.title

@@ -17,5 +17,9 @@ class Image(BaseTimeStampModel):
         null=True
     )
 
+    class Meta:
+        verbose_name = 'image'
+        verbose_name_plural = verbose_name
+
     def __str__(self):
         return "%s" % self.id

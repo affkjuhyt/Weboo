@@ -2,6 +2,7 @@ import logging
 
 from rest_framework import serializers
 
+from apps.vadmin.op_drf.serializers import CustomModelSerializer
 from books.models import Chapter, Image, Comment, Reply
 from books.serializers.image import ImageSerializer
 from userprofile.models import DownLoadBook
@@ -80,3 +81,45 @@ class ChapterViewSerializer(serializers.ModelSerializer):
         reply = Reply.objects.filter(comment_id__in=comment_ids).count()
 
         return comment + reply
+
+
+class ChapterDataSerializer(CustomModelSerializer):
+    """
+    ChapterDataSerializer
+    """
+
+    class Meta:
+        model = Chapter
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['name_book'] = instance.book.title
+        return response
+
+
+class ExportChapterDataSerializer(CustomModelSerializer):
+    """
+    ExportChapterDataSerializer
+    """
+
+    class Meta:
+        model = Chapter
+        fields = ('id', 'title', 'book', 'number', 'thumbnail', 'like_count')
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['name_book'] = instance.book.title
+        return response
+
+
+class ChapterDataCreateUpdateSerializer(CustomModelSerializer):
+    """
+    ChapterCreateSerializer
+    """
+
+    class Meta:
+        model = Chapter
+        fields = '__all__'
+
+
