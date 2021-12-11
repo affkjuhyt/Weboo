@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.conf import settings
 from books.models import Book, Chapter
@@ -8,10 +9,12 @@ from utils.base_models import BaseTimeStampModel
 
 logger = logging.getLogger(__name__.split('.')[0])
 
+User = get_user_model()
+
 
 class History(BaseTimeStampModel):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name="%(class)s"
     )

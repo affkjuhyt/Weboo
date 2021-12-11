@@ -4,7 +4,7 @@ import logging
 import requests
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.db.models import Q
 from rest_framework import status, mixins, viewsets
@@ -18,8 +18,10 @@ from rest_registration.settings import registration_settings
 
 from root.settings import base, drf_jwt
 # from system.models import LoginInfor
-from userprofile.models import UserProfile
+from apps.vadmin.permission.models import UserProfile
 from utils.op_drf.response import ErrorResponse, SuccessResponse
+
+User = get_user_model()
 
 logger = logging.getLogger(__name__.split('.')[0])
 

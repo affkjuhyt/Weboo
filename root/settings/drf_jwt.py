@@ -13,7 +13,7 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_SECRET_KEY': settings.SECRET_KEY,
-    'JWT_GET_USER_SECRET_KEY': 'util.jwt_util.jwt_get_user_secret_key',
+    'JWT_GET_USER_SECRET_KEY': 'apps.vadmin.util.jwt_util.jwt_get_user_secret_key',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=5),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=6),
     'JWT_VERIFY': True,

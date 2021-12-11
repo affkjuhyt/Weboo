@@ -15,6 +15,7 @@ from apps.vadmin.util.exceptions import GenException
 from apps.vadmin.util.jwt_util import jwt_get_session_id
 from apps.vadmin.util.request_util import get_request_ip, get_os, get_browser, get_login_location
 from apps.vadmin.op_drf.response import SuccessResponse, ErrorResponse
+from root.settings import base, drf_jwt
 
 logger = logging.getLogger(__name__)
 
@@ -38,16 +39,11 @@ class LogoutView(APIView):
 
 class LoginView(ObtainJSONWebToken):
     JWT_AUTH_COOKIE = ''
-    prefix = settings.JWT_AUTH.get('JWT_AUTH_HEADER_PREFIX')
-    ex = settings.JWT_AUTH.get('JWT_EXPIRATION_DELTA')
+    prefix = drf_jwt.JWT_AUTH.get('JWT_AUTH_HEADER_PREFIX')
+    ex = drf_jwt.JWT_AUTH.get('JWT_EXPIRATION_DELTA')
 
     def jarge_captcha(self, request):
-        """
-        校验验证码
-        :param request:
-        :return:
-        """
-        if not settings.CAPTCHA_STATE:  # 未开启验证码则返回 True
+        if not base.CAPTCHA_STATE:
             return True
         idKeyC = request.data.get('idKeyC', None)
         idValueC = request.data.get('idValueC', None)

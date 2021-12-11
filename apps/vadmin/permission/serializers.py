@@ -107,7 +107,7 @@ class RoleCreateUpdateSerializer(CustomModelSerializer):
         fields = '__all__'
 
 
-class UserProfileSerializer(CustomModelSerializer):
+class UserProfileDataSerializer(CustomModelSerializer):
     admin = serializers.SerializerMethodField(read_only=True)
     deptId = serializers.IntegerField(source='dept.id', read_only=True)
     unread_msg_count = serializers.SerializerMethodField(read_only=True)

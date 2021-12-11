@@ -2,7 +2,7 @@ import logging
 
 from rest_framework import serializers
 
-from userprofile.models import UserProfile
+from apps.vadmin.permission.models.users import UserProfile
 
 logger = logging.getLogger(__name__.split('.')[0])
 

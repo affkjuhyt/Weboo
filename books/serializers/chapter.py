@@ -9,6 +9,10 @@ from userprofile.models import DownLoadBook
 
 logger = logging.getLogger(__name__)
 
+from datetime import datetime
+today = datetime.now()
+today_path = today.strftime("%Y/%m/%d")
+
 
 class ChapterSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()

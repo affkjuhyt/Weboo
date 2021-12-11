@@ -32,6 +32,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'util.jwt.jwt_response_payload_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': (

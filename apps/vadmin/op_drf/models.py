@@ -1,4 +1,4 @@
-from django.conf import settings
+from root.settings import AUTH_USER_MODEL
 from django.db import models
 from django.db.models import SET_NULL
 
@@ -22,7 +22,7 @@ class CoreModel(models.Model):
     Thêm trường kiểm toán, khi ghi đè các trường, không được sửa đổi tên trường, bạn phải thống nhất tên trường kiểm tra
     """
     description = DescriptionField()
-    creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, related_query_name='creator_query', null=True,
+    creator = models.ForeignKey(to=AUTH_USER_MODEL, related_query_name='creator_query', null=True,
                                 verbose_name='user_create', on_delete=SET_NULL, db_constraint=False)
     modifier = ModifierCharField()
     dept_belong_id = models.CharField(max_length=64, verbose_name="Data attribution department", null=True, blank=True)

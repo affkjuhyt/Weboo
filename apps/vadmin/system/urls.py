@@ -1,16 +1,16 @@
 from django.urls import re_path
 from rest_framework.routers import DefaultRouter
 
-from apps.vadmin.post.views import PostGroupDataModelViewSet
+# from apps.vadmin.post.views import PostGroupDataModelViewSet
 from apps.vadmin.system.views import DictDataModelViewSet, DictDetailsModelViewSet, \
     ConfigSettingsModelViewSet, SaveFileModelViewSet, MessagePushModelViewSet, LoginInforModelViewSet, \
     OperationLogModelViewSet, CeleryLogModelViewSet, SystemInfoApiView, DashboardApiView, PieChartApiView, \
     BarChartApiView, GetCommentDayView
 
-from apps.vadmin.book.views import BookDataModelViewSet, ChapterDataModelViewSet, ChapterAdminViewSet,\
+from books.views import BookDataModelViewSet, ChapterDataModelViewSet, ChapterAdminViewSet,\
     ImageDataModelViewSet, CommentAdminViewSet
 
-from apps.vadmin.group.views import GroupDataModelViewSet
+from groups.views import GroupDataModelViewSet
 
 router = DefaultRouter()
 router.register(r'dict/type', DictDataModelViewSet)
@@ -18,7 +18,7 @@ router.register(r'dict/data', DictDetailsModelViewSet)
 router.register(r'book/data', BookDataModelViewSet)
 router.register(r'book/chapter', ChapterDataModelViewSet)
 router.register(r'group', GroupDataModelViewSet)
-router.register(r'post', PostGroupDataModelViewSet)
+# router.register(r'post', PostGroupDataModelViewSet)
 router.register(r'comment', CommentAdminViewSet, basename='comment')
 router.register(r'config', ConfigSettingsModelViewSet)
 router.register(r'savefile', SaveFileModelViewSet)

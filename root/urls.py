@@ -50,7 +50,8 @@ external_urlpatterns = follow_urlpatterns + auth_urlpatterns + history_urlpatter
                        + post_urlpatterns + userprofile_urlpatterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin1/', admin.site.urls),
+    re_path(r'^admin/', include('apps.vadmin.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('v1/public/', include(external_public_urlpatterns)),
@@ -68,7 +69,7 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view()),
     url(r'^collect/', include('collector.urls')),
     # re_path(r'^getInfo/$', GetUserProfileView.as_view()),
-    url(r'^rec/', include('recommender.urls'))
+    url(r'^rec/', include('recommender.urls')),
 ]
 
 if base.DEBUG is True:

@@ -40,7 +40,7 @@ class SaveImageSerializer(CustomModelSerializer):
 
     class Meta:
         model = Image
-        exclude = ('description',)
+        fields = '__all__'
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

@@ -49,7 +49,6 @@ CAPTCHA_STATE = True
 CAPTCHA_IMAGE_SIZE = (160, 60)  # 设置 captcha 图片大小
 CAPTCHA_LENGTH = 4  # 字符个数
 CAPTCHA_TIMEOUT = 1  # 超时(minutes)
-# 加减乘除验证码
 CAPTCHA_OUTPUT_FORMAT = '%(image)s %(text_field)s %(hidden_field)s '
 CAPTCHA_FONT_SIZE = 40  # 字体大小
 CAPTCHA_FOREGROUND_COLOR = '#0033FF'  # 前景色
@@ -72,7 +71,10 @@ CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 #     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # ]
 
+CORS_ALLOW_CREDENTIALS = False
+X_FRAME_OPTIONS = "ALLOW-FROM"
 ROOT_URLCONF = 'root.urls'
+INTERFACE_PERMISSION = locals().get("INTERFACE_PERMISSION", False)
 
 TEMPLATES = [
     {
@@ -122,7 +124,14 @@ REDIS_HOST = '127.0.0.1'
 REDIS_PORT = os.environ.get("REDIS_PORT"),
 REDIS_PASSWORD = ''
 
-AUTH_USER_MODEL = 'auth.User'
+# AUTH_USER_MODEL = 'auth.User'
+AUTHENTICATION_BACKENDS = (
+    'apps.vadmin.util.backends.CustomBackend',
+    'apps.vadmin.util.backends.SessionAuthentication',
+)
+AUTH_USER_MODEL = 'permission.UserProfile'
+# username_field
+# USERNAME_FIELD = 'username'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

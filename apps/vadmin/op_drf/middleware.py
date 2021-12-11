@@ -6,11 +6,13 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.utils.deprecation import MiddlewareMixin
 
+import root
 from apps.vadmin.op_drf.response import ErrorJsonResponse
 from apps.vadmin.permission.models import Menu
 from apps.vadmin.system.models import OperationLog
 from apps.vadmin.util.request_util import get_request_ip, get_request_data, get_request_path, get_browser, get_os, \
     get_login_location, get_request_canonical_path, get_request_user, get_verbose_name
+from root.settings import base
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +100,7 @@ class PermissionModeMiddleware(MiddlewareMixin):
         if os.getenv('DEMO_ENV') and not request.method in ['GET', 'OPTIONS'] and request.path not in white_list:
             return ErrorJsonResponse(data={}, msg=f'演示模式，不允许操作!')
 
-        if not settings.INTERFACE_PERMISSION:
+        if not base.INTERFACE_PERMISSION:
             return
         user = get_request_user(request)
 

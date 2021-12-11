@@ -16,7 +16,7 @@ jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 from root.authentications import BaseUserJWTAuthentication
-from userprofile.models import UserProfile
+from apps.vadmin.permission.models import UserProfile
 from userprofile.serializers import UserProfileSerializer
 
 logger = logging.getLogger(__name__.split('.')[0])
@@ -30,13 +30,13 @@ class UserPublicView(ReadOnlyModelViewSet):
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def get_queryset(self):
-        return UserProfile.objects.filter()
+        return User.objects.filter()
 
     @action(detail=False, methods=['get'], url_path='user_info')
     def get_user_info(self, request, *args, **kwargs):
         user = self.request.user
-        user_profile = UserProfile.objects.filter(id=user.id).first()
-        return Response(UserProfileSerializer(user_profile).data)
+        # user_profile = User.objects.filter(id=user.id).first()
+        return Response(user.data)
 
 
 class UpdateInfo(ReadOnlyModelViewSet):

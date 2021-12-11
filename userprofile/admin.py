@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from userprofile.models import UserProfile, FollowBook, DownLoadBook, UserFollowing
+from userprofile.models import FollowBook, DownLoadBook, UserFollowing
+from apps.vadmin.permission.models import UserProfile
 
 
 # class UserProfileAdmin(admin.ModelAdmin):

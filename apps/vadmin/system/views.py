@@ -6,14 +6,14 @@ from django.db.models import Q
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
-from apps.vadmin.book.models import Book, Comment, Reply, TagBook, Tag
-from apps.vadmin.book.serializers.book import BookDataSerializer
+from books.models import Book, Comment, Reply, TagBook, Tag
+from books.serializers.book import BookDataSerializer
 from apps.vadmin.op_drf.filters import DataLevelPermissionsFilter
 from apps.vadmin.op_drf.response import SuccessResponse
 from apps.vadmin.op_drf.viewsets import CustomModelViewSet
 from apps.vadmin.permission.filters import UserProfile
 from apps.vadmin.permission.permissions import CommonPermission, User
-from apps.vadmin.post.models import PostGroup
+from posts.models import Post
 from apps.vadmin.system.filters import DictDetailsFilter, DictDataFilter, ConfigSettingsFilter, MessagePushFilter, \
     SaveFileFilter, LoginInforFilter, OperationLogFilter, CeleryLogFilter
 from apps.vadmin.system.models import DictData, DictDetails, ConfigSettings, SaveFile, MessagePush
@@ -271,7 +271,7 @@ class DashboardApiView(APIView):
         reply = Reply.objects.filter().count()
         result1 = comment + reply
         user = User.objects.filter().count()
-        post = PostGroup.objects.filter().count()
+        post = Post.objects.filter().count()
         return SuccessResponse(data={"count_book": result,
                                      "count_comment": result1,
                                      "count_user": user,
@@ -314,24 +314,24 @@ class GetCommentDayView(APIView):
     def get(self, request, *args, **kwargs):
         response = {}
         today = datetime.datetime.today().weekday()
-        response['Mon'] = PostGroup.objects.filter(
+        response['Mon'] = Post.objects.filter(
             create_datetime__gte=(datetime.datetime.now() - datetime.timedelta(days=today))).count()
-        response['Tue'] = PostGroup.objects.filter(
+        response['Tue'] = Post.objects.filter(
             create_datetime__gte=datetime.datetime.now() - datetime.timedelta(days=today) + datetime.timedelta(
                 days=1)).count()
-        response['Wed'] = PostGroup.objects.filter(
+        response['Wed'] = Post.objects.filter(
             create_datetime__gte=datetime.datetime.now() - datetime.timedelta(days=today) + datetime.timedelta(
                 days=2)).count()
-        response['Thu'] = PostGroup.objects.filter(
+        response['Thu'] = Post.objects.filter(
             create_datetime__gte=datetime.datetime.now() - datetime.timedelta(days=today) + datetime.timedelta(
                 days=3)).count()
-        response['Fri'] = PostGroup.objects.filter(
+        response['Fri'] = Post.objects.filter(
             create_datetime__gte=datetime.datetime.now() - datetime.timedelta(days=today) + datetime.timedelta(
                 days=4)).count()
-        response['Sat'] = PostGroup.objects.filter(
+        response['Sat'] = Post.objects.filter(
             create_datetime__gte=datetime.datetime.now() - datetime.timedelta(days=today) + datetime.timedelta(
                 days=5)).count()
-        response['Sun'] = PostGroup.objects.filter(
+        response['Sun'] = Post.objects.filter(
             create_datetime__gte=datetime.datetime.now() - datetime.timedelta(days=today) + datetime.timedelta(
                 days=6)).count()
 

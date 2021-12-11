@@ -5,7 +5,7 @@ from rest_framework import serializers
 from apps.vadmin.op_drf.serializers import CustomModelSerializer
 from books.models import Comment, Reply
 from userprofile.serializers import UserProfileSerializer
-from userprofile.models import UserProfile
+from apps.vadmin.permission.models import UserProfile
 
 from django.utils import timezone
 

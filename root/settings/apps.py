@@ -15,6 +15,8 @@ INSTALLED_APPS = [
     'defender',
     'corsheaders',
     'captcha',
+    'axes',
+    'django_celery_beat',
     'django_extensions',
     'django_filters',
     'django_rq',

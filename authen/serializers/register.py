@@ -7,7 +7,7 @@ from rest_registration.api.serializers import DefaultRegisterUserSerializer
 from rest_registration.exceptions import BadRequest
 from utils.common import full_name
 
-from userprofile.models import UserProfile
+from apps.vadmin.permission.models import UserProfile
 
 logger = logging.getLogger(__name__.split('.')[0])
 

@@ -1,6 +1,3 @@
-"""
-封装系服务监控相关函数
-"""
 import psutil as psutil
 
 

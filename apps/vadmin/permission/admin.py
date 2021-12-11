@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.vadmin.permission.models import Menu, Role
+from apps.vadmin.permission.models import Menu, Role, UserProfile
 
 
 class MenusAdmin(admin.ModelAdmin):
@@ -18,5 +18,13 @@ class RolesAdmin(admin.ModelAdmin):
     raw_id_fields = []
 
 
+class UserProfilesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'username', 'name', 'gender', 'user_type')
+    search_fields = ['name']
+    raw_id_fields = []
+    list_filter = ['gender', 'user_type']
+
+
+admin.site.register(UserProfile, UserProfilesAdmin)
 admin.site.register(Role, RolesAdmin)
 admin.site.register(Menu, MenusAdmin)

@@ -91,7 +91,7 @@ class SaveFileSerializer(CustomModelSerializer):
 
     class Meta:
         model = SaveFile
-        exclude = ('description',)
+        fields = '__all__'
 
 
 class SaveFileCreateUpdateSerializer(CustomModelSerializer):

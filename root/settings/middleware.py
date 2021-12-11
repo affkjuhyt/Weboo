@@ -50,4 +50,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'defender.middleware.FailedLoginMiddleware',
     'root.settings.middleware.GetUserAgentMiddleware',
+    'apps.vadmin.op_drf.middleware.ApiLoggingMiddleware',  # 用于记录API访问日志
+    'apps.vadmin.op_drf.middleware.PermissionModeMiddleware',  # 权限中间件
 ]

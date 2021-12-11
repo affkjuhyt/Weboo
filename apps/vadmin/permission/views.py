@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
@@ -6,9 +8,9 @@ from apps.vadmin.op_drf.response import SuccessResponse, ErrorResponse
 from apps.vadmin.permission.permissions import CommonPermission, DeptDestroyPermission
 from apps.vadmin.op_drf.filters import DataLevelPermissionsFilter
 from apps.vadmin.op_drf.viewsets import CustomModelViewSet
-from apps.vadmin.permission.filters import MenuFilter, DeptFilter, RoleFilter, UserProfileFilter
+from apps.vadmin.permission.filters import MenuFilter, DeptFilter, RoleFilter
 from apps.vadmin.permission.models import Role, Menu, Dept
-from apps.vadmin.permission.serializers import UserProfileSerializer, MenuSerializer, RoleSerializer, \
+from apps.vadmin.permission.serializers import UserProfileDataSerializer, MenuSerializer, RoleSerializer, \
     MenuCreateUpdateSerializer, DeptSerializer, DeptCreateUpdateSerializer, \
     RoleCreateUpdateSerializer, DeptTreeSerializer, MenuTreeSerializer, UserProfileCreateUpdateSerializer, \
     RoleSimpleSerializer, ExportUserProfileSerializer, ExportRoleSerializer, \
@@ -21,7 +23,7 @@ UserProfile = get_user_model()
 class GetUserProfileView(APIView):
 
     def get(self, request, format=None):
-        user_dict = UserProfileSerializer(request.user).data
+        user_dict = UserProfileDataSerializer(request.user).data
         permissions_list = ['*:*:*'] if user_dict.get('admin') else Menu.objects.filter(
             role__userprofile=request.user).values_list('perms', flat=True)
         delete_cache = request.user.delete_cache
@@ -169,10 +171,10 @@ class RoleModelViewSet(CustomModelViewSet):
 
 class UserProfileModelViewSet(CustomModelViewSet):
     queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    serializer_class = UserProfileDataSerializer
     create_serializer_class = UserProfileCreateUpdateSerializer
     update_serializer_class = UserProfileCreateUpdateSerializer
-    filter_class = UserProfileFilter
+    # filter_class = UserProfileFilter
     extra_filter_backends = [DataLevelPermissionsFilter]
     export_serializer_class = ExportUserProfileSerializer
     export_field_data = ['用户序号', '登录名称', '用户名称', '用户邮箱', '手机号码', '用户性别', '帐号状态', '最后登录时间', '部门名称', '部门负责人']

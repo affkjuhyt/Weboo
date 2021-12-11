@@ -10,20 +10,13 @@ from django.core.cache import cache
 from django.urls.resolvers import ResolverMatch
 from user_agents import parse
 
-from application import settings
+from root import settings
 from apps.vadmin.util.authentication import OpAuthJwtAuthentication
 
 logger = logging.getLogger(__name__)
 
 
 def get_request_user(request, authenticate=True):
-    """
-    获取请求user
-    (1)如果request里的user没有认证,那么则手动认证一次
-    :param request:
-    :param authenticate:
-    :return:
-    """
     user: AbstractBaseUser = getattr(request, 'user', None)
     if user and user.is_authenticated:
         return user
